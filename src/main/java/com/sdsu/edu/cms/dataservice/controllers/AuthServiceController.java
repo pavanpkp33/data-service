@@ -4,9 +4,10 @@ package com.sdsu.edu.cms.dataservice.controllers;
 import com.sdsu.edu.cms.dataservice.beans.DataServiceResponse;
 import com.sdsu.edu.cms.dataservice.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +25,8 @@ public class AuthServiceController {
     @PostMapping("/auth/query/")
     public DataServiceResponse queryUserName(@RequestBody Map<String, Object> payLoad, HttpServletRequest request,
                                              HttpServletResponse response) throws IOException {
-        authService.findById(payLoad.get("email"));
-        return new DataServiceResponse(Arrays.asList("Yo"), "CREATED");
+
+        return new DataServiceResponse(Arrays.asList(authService.findById(payLoad.get("email"))), "User Information");
     }
 
 }

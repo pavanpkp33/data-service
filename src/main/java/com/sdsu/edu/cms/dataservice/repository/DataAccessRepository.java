@@ -11,7 +11,7 @@ public interface DataAccessRepository   {
 
     Object findOne(String query, Object ...params);
 
-    int add(String query, Object ...params);
+    int save(String query, Object ...params);
 
     int update(String query, Object ...params);
 }
