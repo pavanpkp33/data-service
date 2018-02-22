@@ -1,0 +1,31 @@
+package com.sdsu.edu.cms.dataservice.controllers;
+
+
+import com.sdsu.edu.cms.dataservice.beans.DataServiceResponse;
+import com.sdsu.edu.cms.dataservice.services.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Map;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+@RestController
+@RequestMapping(value = "/v1/api", produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
+public class AuthServiceController {
+    @Autowired
+    AuthService authService;
+    @PostMapping("/auth/query/")
+    public DataServiceResponse queryUserName(@RequestBody Map<String, Object> payLoad, HttpServletRequest request,
+                                             HttpServletResponse response) throws IOException {
+        authService.findById(payLoad.get("email"));
+        return new DataServiceResponse(Arrays.asList("Yo"), "CREATED");
+    }
+
+}
