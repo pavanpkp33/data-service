@@ -1,7 +1,6 @@
 package com.sdsu.edu.cms.dataservice.repository;
 
 import com.sdsu.edu.cms.dataservice.beans.AuthUser;
-
 import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,8 +31,10 @@ public class AuthServiceRepo implements DataAccessRepository {
     }
 
     @Override
-    public int save(String query, Object... params) {
-        return 0;
+    public int save(String query, Object... params){
+
+        int i = jdbcTemplate.update(query, params);
+        return i;
     }
 
     @Override

@@ -1,27 +1,58 @@
 package com.sdsu.edu.cms.dataservice.beans;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 public class User {
-
+    @JsonProperty("id")
     private String id;
+    @JsonProperty("first_name")
     private String  firstName;
+    @JsonProperty("last_name")
     private String lastName;
-    private String middleName;
+    @JsonProperty("middle_name")
+    private String middleName = null;
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("email")
     private String email;
+    @JsonProperty("password")
     private String password;
+    @JsonProperty("address1")
     private String address1;
-    private String address2;
+    @JsonProperty("address2")
+    private String address2 = null;
+    @JsonProperty("city")
     private String city;
+    @JsonProperty("state")
     private String state;
+    @JsonProperty("country")
     private String country;
+    @JsonProperty("zipcode")
     private int zipcode;
+    @JsonProperty("affiliation")
     private String affiliation;
+    @JsonProperty("department")
     private String department;
+    @JsonProperty("dob")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dob;
+    @JsonProperty("is_participating")
     private String isParticipating;
-    private String isValid;
+    @JsonProperty("is_valid")
+    private String isValid = "Y";
+    @JsonProperty("is_active")
+    private String isActive = "N";
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
 
     public String getId() {
         return id;
@@ -165,5 +196,31 @@ public class User {
 
     public void setIsValid(String isValid) {
         this.isValid = isValid;
+    }
+
+    public Object[] getArray(){
+        Object[] arr = {
+                this.id,
+                this.firstName,
+                this.lastName,
+                this.middleName,
+                this.title,
+                this.email,
+                this.password,
+                this.address1,
+                this.address2,
+                this.city,
+                this.state,
+                this.country,
+                this.zipcode,
+                this.affiliation,
+                this.department,
+                this.dob,
+                this.isParticipating,
+                this.isValid,
+                this.isActive
+        };
+
+        return arr;
     }
 }

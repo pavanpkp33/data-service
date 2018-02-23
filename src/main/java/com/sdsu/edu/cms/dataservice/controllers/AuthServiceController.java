@@ -2,6 +2,7 @@ package com.sdsu.edu.cms.dataservice.controllers;
 
 
 import com.sdsu.edu.cms.dataservice.beans.DataServiceResponse;
+import com.sdsu.edu.cms.dataservice.beans.User;
 import com.sdsu.edu.cms.dataservice.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,11 +23,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class AuthServiceController {
     @Autowired
     AuthService authService;
-    @PostMapping("/auth/query/")
+    @PostMapping("/auth/query")
     public DataServiceResponse queryUserName(@RequestBody Map<String, Object> payLoad, HttpServletRequest request,
                                              HttpServletResponse response) throws IOException {
 
         return new DataServiceResponse(Arrays.asList(authService.findById(payLoad.get("email"))), "User Information");
+    }
+
+    @PostMapping("/auth/save")
+    public DataServiceResponse saveUser(@RequestBody User user){
+        System.out.println("cominh here");
+        int i = authService.saveUser(user);
+        return new DataServiceResponse(Arrays.asList(i), "Success");
     }
 
 }
