@@ -48,8 +48,9 @@ public class AuthServiceRepo implements DataAccessRepository {
         try{
             int i = jdbcTemplate.update(query, params);
             return i;
-        }catch (DuplicateKeyException e){
-            throw new UserNotFoundException(1062);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return -1;
         }
 
     }

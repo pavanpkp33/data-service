@@ -2,13 +2,13 @@ package com.sdsu.edu.cms.dataservice.services;
 
 
 import com.sdsu.edu.cms.dataservice.beans.User;
+import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
 import com.sdsu.edu.cms.dataservice.repository.AuthServiceRepo;
 import com.sdsu.edu.cms.dataservice.util.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 @Service
@@ -33,8 +33,8 @@ public class AuthService{
         String query = buildQuery(user, id);
         System.out.println(query);
         int i = authServiceRepo.update(query, null);
-        System.out.println(i);
-        return 0;
+        if(i == 0) throw new UserNotFoundException("No valid user associated with given ID");
+        return i;
     }
 
     public int deleteUser(String id){
