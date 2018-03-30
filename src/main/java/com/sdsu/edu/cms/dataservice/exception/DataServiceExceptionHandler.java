@@ -20,7 +20,12 @@ public class DataServiceExceptionHandler extends ResponseEntityExceptionHandler{
 
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<Object> handleUserNotFoundException(Exception ex, WebRequest request) {
-        DataServiceResponse apiError = new DataServiceResponse(Arrays.asList(request.getDescription(false)),ex.getMessage());
+        DataServiceResponse apiError;
+        if(ex.getMessage().toString().equals("1062")){
+            apiError = new DataServiceResponse(Arrays.asList(request.getDescription(false)),"Duplicate User.");
+            return new ResponseEntity(apiError, HttpStatus.CONFLICT);
+        }
+        apiError = new DataServiceResponse(Arrays.asList(request.getDescription(false)),ex.getMessage());
         return new ResponseEntity(apiError, HttpStatus.NOT_FOUND);
     }
 

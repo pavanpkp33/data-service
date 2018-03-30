@@ -5,10 +5,7 @@ import com.sdsu.edu.cms.dataservice.beans.DataServiceResponse;
 import com.sdsu.edu.cms.dataservice.beans.User;
 import com.sdsu.edu.cms.dataservice.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,9 +29,19 @@ public class AuthServiceController {
 
     @PostMapping("/auth/save")
     public DataServiceResponse saveUser(@RequestBody User user){
-        System.out.println("cominh here");
-        int i = authService.saveUser(user);
-        return new DataServiceResponse(Arrays.asList(i), "Success");
+        authService.saveUser(user);
+        return new DataServiceResponse(Arrays.asList(true), "User registered successfully");
     }
 
+    @PostMapping("/auth/update/user/{id}")
+    public DataServiceResponse updateUser(@RequestBody User user, @PathVariable String id){
+        authService.updateUser(user, id);
+        return new DataServiceResponse(Arrays.asList(true), "User updated successfully");
+    }
+
+    @PostMapping("/auth/delete/user/{id}")
+    public DataServiceResponse deleteUser(@PathVariable String id){
+        authService.deleteUser(id);
+        return null;
+    }
 }

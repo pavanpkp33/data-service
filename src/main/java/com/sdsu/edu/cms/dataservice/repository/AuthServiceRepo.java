@@ -3,9 +3,11 @@ package com.sdsu.edu.cms.dataservice.repository;
 import com.sdsu.edu.cms.dataservice.beans.AuthUser;
 import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -32,13 +34,23 @@ public class AuthServiceRepo implements DataAccessRepository {
 
     @Override
     public int save(String query, Object... params){
+        try{
+            int i = jdbcTemplate.update(query, params);
+            return i;
+        }catch (DuplicateKeyException e){
+            throw new UserNotFoundException(1062);
+        }
 
-        int i = jdbcTemplate.update(query, params);
-        return i;
     }
 
     @Override
     public int update(String query, Object... params) {
-        return 0;
+        try{
+            int i = jdbcTemplate.update(query, params);
+            return i;
+        }catch (DuplicateKeyException e){
+            throw new UserNotFoundException(1062);
+        }
+
     }
 }

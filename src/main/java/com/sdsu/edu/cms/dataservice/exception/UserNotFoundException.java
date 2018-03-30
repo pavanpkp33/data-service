@@ -9,4 +9,8 @@ public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String s){
         super(s);
     }
+
+    public UserNotFoundException(int errCode){
+        super(Integer.toString(errCode));
+    }
 }

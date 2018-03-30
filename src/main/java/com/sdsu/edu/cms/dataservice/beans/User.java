@@ -9,11 +9,11 @@ public class User {
     @JsonProperty("id")
     private String id;
     @JsonProperty("first_name")
-    private String  firstName;
+    private String  first_name;
     @JsonProperty("last_name")
-    private String lastName;
+    private String last_name;
     @JsonProperty("middle_name")
-    private String middleName = null;
+    private String middle_name = null;
     @JsonProperty("title")
     private String title;
     @JsonProperty("email")
@@ -40,18 +40,18 @@ public class User {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dob;
     @JsonProperty("is_participating")
-    private String isParticipating;
-    @JsonProperty("is_valid")
-    private String isValid = "Y";
+    private String is_participating;
+    @JsonProperty("valid")
+    private String valid = "Y";
     @JsonProperty("is_active")
-    private String isActive = "N";
+    private String is_active = "N";
 
-    public String getIsActive() {
-        return isActive;
+    public String getis_active() {
+        return is_active;
     }
 
-    public void setIsActive(String isActive) {
-        this.isActive = isActive;
+    public void setis_active(String is_active) {
+        this.is_active = is_active;
     }
 
     public String getId() {
@@ -62,28 +62,28 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getfirst_name() {
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setfirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getlast_name() {
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setlast_name(String last_name) {
+        this.last_name = last_name;
     }
 
-    public String getMiddleName() {
-        return middleName;
+    public String getmiddle_name() {
+        return middle_name;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+    public void setmiddle_name(String middle_name) {
+        this.middle_name = middle_name;
     }
 
     public String getTitle() {
@@ -182,28 +182,28 @@ public class User {
         this.dob = dob;
     }
 
-    public String getIsParticipating() {
-        return isParticipating;
+    public String getis_participating() {
+        return is_participating;
     }
 
-    public void setIsParticipating(String isParticipating) {
-        this.isParticipating = isParticipating;
+    public void setis_participating(String is_participating) {
+        this.is_participating = is_participating;
     }
 
-    public String getIsValid() {
-        return isValid;
+    public String getvalid() {
+        return valid;
     }
 
-    public void setIsValid(String isValid) {
-        this.isValid = isValid;
+    public void setvalid(String valid) {
+        this.valid = valid;
     }
 
     public Object[] getArray(){
         Object[] arr = {
                 this.id,
-                this.firstName,
-                this.lastName,
-                this.middleName,
+                this.first_name,
+                this.last_name,
+                this.middle_name,
                 this.title,
                 this.email,
                 this.password,
@@ -216,9 +216,9 @@ public class User {
                 this.affiliation,
                 this.department,
                 this.dob,
-                this.isParticipating,
-                this.isValid,
-                this.isActive
+                this.is_participating,
+                this.valid,
+                this.is_active
         };
 
         return arr;
