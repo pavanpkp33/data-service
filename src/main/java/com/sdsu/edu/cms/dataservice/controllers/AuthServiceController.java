@@ -21,10 +21,9 @@ public class AuthServiceController {
     @Autowired
     AuthService authService;
     @PostMapping("/auth/query")
-    public DataServiceResponse queryUserName(@RequestBody Map<String, Object> payLoad, HttpServletRequest request,
-                                             HttpServletResponse response) throws IOException {
+    public DataServiceResponse queryUserName(@RequestBody String email){
 
-        return new DataServiceResponse(Arrays.asList(authService.findById(payLoad.get("email"))), "User Information");
+        return new DataServiceResponse(Arrays.asList(authService.findById(email)), "User Information");
     }
 
     @PostMapping("/auth/save")
@@ -33,13 +32,13 @@ public class AuthServiceController {
         return new DataServiceResponse(Arrays.asList(true), "User registered successfully");
     }
 
-    @PostMapping("/auth/update/user/{id}")
+    @PostMapping("/auth/update/users/{id}")
     public DataServiceResponse updateUser(@RequestBody User user, @PathVariable String id){
         authService.updateUser(user, id);
         return new DataServiceResponse(Arrays.asList(true), "User updated successfully");
     }
 
-    @PostMapping("/auth/delete/user/{id}")
+    @PostMapping("/auth/delete/users/{id}")
     public DataServiceResponse deleteUser(@PathVariable String id){
         authService.deleteUser(id);
         return null;
