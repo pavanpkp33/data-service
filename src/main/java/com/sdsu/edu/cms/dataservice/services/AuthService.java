@@ -1,7 +1,8 @@
 package com.sdsu.edu.cms.dataservice.services;
 
 
-import com.sdsu.edu.cms.dataservice.beans.User;
+
+import com.sdsu.edu.cms.common.models.user.User;
 import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
 import com.sdsu.edu.cms.dataservice.repository.AuthServiceRepo;
 import com.sdsu.edu.cms.dataservice.util.Query;
@@ -31,7 +32,6 @@ public class AuthService{
 
     public int updateUser(User user, String id){
         String query = buildQuery(user, id);
-        System.out.println(query);
         int i = authServiceRepo.update(query, null);
         if(i == 0) throw new UserNotFoundException("No valid user associated with given ID");
         return i;

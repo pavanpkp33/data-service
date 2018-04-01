@@ -25,7 +25,6 @@ public class RequestCheckFilter implements Filter {
 
         if(httpRequest.getHeader(Constants.INTERNAL_TOKEN) != null &&
                 httpRequest.getHeader(Constants.INTERNAL_TOKEN).equals(Constants.INTERNAL_TOKEN_VALUE)){
-            System.out.println("Authenticated!");
             chain.doFilter(httpRequest, response);
         }else{
             ((HttpServletResponse) response)

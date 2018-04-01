@@ -1,7 +1,8 @@
 package com.sdsu.edu.cms.dataservice.exception;
 
 
-import com.sdsu.edu.cms.dataservice.beans.DataServiceResponse;
+
+import com.sdsu.edu.cms.common.models.response.DataServiceResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
