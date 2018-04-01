@@ -30,5 +30,10 @@ public class UserServiceController {
         return null;
     }
 
+    @PostMapping("/users/{id}")
+    public DataServiceResponse findUserById(@PathVariable String id){
+        User u = userService.findByUid(id);
+        return new DataServiceResponse(Arrays.asList(u), "Query successful.");
+    }
 
 }

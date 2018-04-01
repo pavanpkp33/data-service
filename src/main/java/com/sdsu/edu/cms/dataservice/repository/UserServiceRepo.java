@@ -1,7 +1,6 @@
 package com.sdsu.edu.cms.dataservice.repository;
 
 
-import com.sdsu.edu.cms.common.models.response.DataServiceResponse;
 import com.sdsu.edu.cms.common.models.user.User;
 import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +46,7 @@ public class UserServiceRepo implements DataAccessRepository{
             u.setDob(rs.getDate("dob"));
             u.setis_participating(rs.getString("is_participating"));
             u.setis_active(rs.getString("is_active"));
-            u.setvalid(rs.getString("is_valid"));
+            u.setvalid(rs.getString("valid"));
 
             return u;
         });

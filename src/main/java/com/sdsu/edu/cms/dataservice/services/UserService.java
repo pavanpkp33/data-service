@@ -4,6 +4,7 @@ package com.sdsu.edu.cms.dataservice.services;
 import com.sdsu.edu.cms.common.models.user.User;
 import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
 import com.sdsu.edu.cms.dataservice.repository.UserServiceRepo;
+import com.sdsu.edu.cms.dataservice.util.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,12 @@ public class UserService {
 
     public int deleteUser(String id){
         return 0;
+    }
+
+    public User findByUid(String id){
+        User user = (User) userServiceRepo.findById(Query.GET_USER_BY_ID, id);
+
+        return user;
     }
 
     public String buildQuery(User user, String id){
