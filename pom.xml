@@ -59,7 +59,7 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sdsu.edu.common</groupId>
+			<groupId>com.sdsu.edu.cms.common</groupId>
 			<artifactId>common-libs</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
