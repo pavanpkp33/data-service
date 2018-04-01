@@ -2,10 +2,12 @@ package com.sdsu.edu.cms.dataservice.repository;
 
 
 import com.sdsu.edu.cms.common.models.user.AuthUser;
+import com.sdsu.edu.cms.common.models.user.User;
 import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 
@@ -31,6 +33,11 @@ public class AuthServiceRepo implements DataAccessRepository {
             throw new UserNotFoundException("User with entered ID not found");
         }
         return user.get(0);
+    }
+
+    @Override
+    public Object findById(String query, String id) {
+        return null;
     }
 
     @Override

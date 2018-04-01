@@ -17,7 +17,7 @@ public class AuthService{
     @Autowired
     AuthServiceRepo authServiceRepo;
 
-    public Object findById(Object id){
+    public Object authenticateUser(Object id){
 
         return authServiceRepo.findOne(Query.GET_USER_BY_EMAIL, id);
 
@@ -30,45 +30,7 @@ public class AuthService{
 
     }
 
-    public int updateUser(User user, String id){
-        String query = buildQuery(user, id);
-        int i = authServiceRepo.update(query, null);
-        if(i == 0) throw new UserNotFoundException("No valid user associated with given ID");
-        return i;
-    }
 
-    public int deleteUser(String id){
-        return 0;
-    }
-
-    public String buildQuery(User user, String id){
-        String query = "UPDATE USERS SET ";
-        boolean flag = true;
-        for (Field field : user.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            try {
-                Object value = field.get(user);
-                if(value != null && !value.toString().equals("0")){
-                    if(field.getName().equals("dob")){
-                        query += ", "+ field.getName() +" = \""+new SimpleDateFormat("yyyy-MM-dd").format(value)+ "\" "; continue;
-                    }
-                    if(flag){
-                        query += field.getName() +" = \""+value.toString()+"\"";
-                        flag=false;
-                    }else{
-                        query += ", "+ field.getName() +" = \""+value.toString()+ "\" ";
-                    }
-
-                }
-
-
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        query += "WHERE id = \""+id+"\"";
-        return query;
-    }
 
 
 
