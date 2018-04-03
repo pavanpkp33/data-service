@@ -1,7 +1,7 @@
 package com.sdsu.edu.cms.dataservice.controllers;
 
 
-import com.sdsu.edu.cms.common.models.response.DataServiceResponse;
+import com.sdsu.edu.cms.common.models.response.ServiceResponse;
 import com.sdsu.edu.cms.common.models.user.User;
 import com.sdsu.edu.cms.dataservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +19,21 @@ public class UserServiceController {
     UserService userService;
 
     @PostMapping("/users/update/{id}")
-    public DataServiceResponse updateUser(@RequestBody User user, @PathVariable String id){
+    public ServiceResponse updateUser(@RequestBody User user, @PathVariable String id){
         userService.updateUser(user, id);
-        return new DataServiceResponse(Arrays.asList(true), "User updated successfully");
+        return new ServiceResponse(Arrays.asList(true), "User updated successfully");
     }
 
     @PostMapping("/users/delete/{id}")
-    public DataServiceResponse deleteUser(@PathVariable String id){
+    public ServiceResponse deleteUser(@PathVariable String id){
         userService.deleteUser(id);
         return null;
     }
 
     @PostMapping("/users/{id}")
-    public DataServiceResponse findUserById(@PathVariable String id){
+    public ServiceResponse findUserById(@PathVariable String id){
         User u = userService.findByUid(id);
-        return new DataServiceResponse(Arrays.asList(u), "Query successful.");
+        return new ServiceResponse(Arrays.asList(u), "Query successful.");
     }
 
 }
