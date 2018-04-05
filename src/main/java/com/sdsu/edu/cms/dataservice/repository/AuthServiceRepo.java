@@ -1,6 +1,7 @@
 package com.sdsu.edu.cms.dataservice.repository;
 
 
+import com.google.gson.Gson;
 import com.sdsu.edu.cms.common.models.user.AuthUser;
 import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,13 @@ public class AuthServiceRepo implements DataAccessRepository {
     public Object findOne(String query, Object... params) {
        List<AuthUser> user = jdbcTemplate.query(query, params,  (rs, rowNum) ->  new AuthUser(rs.getString("id"),
                 rs.getString("email"),
-                rs.getString("password")));
+                rs.getString("password"),
+               rs.getString("valid"),
+               rs.getString("is_active")));
         if(user.isEmpty() || user == null){
             throw new UserNotFoundException("User with entered ID not found");
         }
-        return user.get(0);
+        return new Gson().toJson(user.get(0)).toString();
     }
 
     @Override

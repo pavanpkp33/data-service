@@ -61,17 +61,20 @@ public class AuthService{
     }
 
     private Notify buildPayLoad(String email, String userId, String activationToken) {
-        Notify n = new Notify();
-        n.setConference_id(null);
-        n.setCreated_on(new Date());
+
         String activationURI = "http://localhost:4200/account/activate/"+userId+"/token/"+activationToken;
+        Notify n = new Notify();
+
+        n.setConference_id(Constants.SERVER_CONFERENCE);
+        n.setCreated_on(new Date());
         n.setEmail_message(Constants.ACTIVATION_EMAIL_BODY+activationURI);
-        n.setIs_broadcast(false);
-        n.setMethod(Arrays.asList("email"));
-        n.setPriority("high");
+        n.setIs_broadcast("N");
+        n.setMethod(Arrays.asList(Constants.SCHEME_EMAIL));
+        n.setPriority(Constants.NotifyMethod.ACTIVATION.toString());
         n.setReceiver(Arrays.asList(email));
-        n.setSender_id("activation-server");
+        n.setSender_id(Constants.SERVER_ID);
         n.setSubject(Constants.ACTIVATION_EMAIL_TITLE);
+        n.setSender_name(Constants.SERVER_NAME);
 
         return n;
     }
