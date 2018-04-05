@@ -5,12 +5,10 @@ import com.sdsu.edu.cms.common.models.response.ServiceResponse;
 import com.sdsu.edu.cms.common.models.user.User;
 import com.sdsu.edu.cms.dataservice.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -29,6 +27,23 @@ public class AuthServiceController {
     public ServiceResponse saveUser(@RequestBody User user){
         authService.saveUser(user);
         return new ServiceResponse(Arrays.asList(true), "User registered successfully");
+    }
+
+    @PostMapping("/auth/activate")
+    public  ServiceResponse activateUser(@RequestParam Map<String, String> map){
+        String id = map.get("id"), token = map.get("token");
+        if(authService.verifyActivationToken(token, id)){
+               int code = authService.activateUser(id);
+               if( code != 1){
+                   return new ServiceResponse(Arrays.asList(false), "-1");
+               }else{
+                   return new ServiceResponse(Arrays.asList(true), "1");
+               }
+
+        }else{
+            return new ServiceResponse(Arrays.asList(false), "-2");
+        }
+
     }
 
 

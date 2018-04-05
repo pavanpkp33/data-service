@@ -11,6 +11,8 @@ public class Query {
             "valid, is_active) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     public static final String GET_USER_BY_ID = "SELECT * FROM USERS WHERE ID = ?";
     public static final String SAVE_ACTIVATION_TOKEN = "INSERT INTO USER_ACTIVATION (id, user_id, token) VALUES ( ?,?,?)";
+    public static final String ACTIVATE_USER = "UPDATE USERS SET is_active = 'Y' WHERE id = ?";
+    public static final String PURGE_TOKEN = "DELETE FROM USER_ACTIVATION WHERE user_id = ?";
 
 
 }

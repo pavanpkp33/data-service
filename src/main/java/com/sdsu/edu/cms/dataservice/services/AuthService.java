@@ -98,6 +98,12 @@ public class AuthService{
         notificationServiceProxy.notify(notifyPayLoad);
     }
 
+    public int activateUser(String id){
+        int i = authServiceRepo.update(Query.ACTIVATE_USER, id);
+        authServiceRepo.update(Query.PURGE_TOKEN, id);
+        return i;
+    }
+
 
 
 }
