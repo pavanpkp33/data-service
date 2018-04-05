@@ -10,6 +10,7 @@ public class Query {
             "password, address1, address2, city, state, country, zipcode, affiliation, department, dob, is_participating, " +
             "valid, is_active) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     public static final String GET_USER_BY_ID = "SELECT * FROM USERS WHERE ID = ?";
+    public static final String SAVE_ACTIVATION_TOKEN = "INSERT INTO USER_ACTIVATION (id, user_id, token) VALUES ( ?,?,?)";
 
 
 }
