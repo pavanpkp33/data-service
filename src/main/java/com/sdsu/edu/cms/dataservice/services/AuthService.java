@@ -45,7 +45,7 @@ public class AuthService{
 
                    */
                   try{
-                      notifyPayLoad = buildPayLoad(user.getEmail(), userId, activationToken);
+                      notifyPayLoad = buildPayLoad(user.getfirst_name(), user.getEmail(), userId, activationToken);
                       notifyAsync(notifyPayLoad);
                       return 1;
                   }catch (FeignException e){
@@ -60,14 +60,14 @@ public class AuthService{
 
     }
 
-    private Notify buildPayLoad(String email, String userId, String activationToken) {
+    private Notify buildPayLoad(String name, String email, String userId, String activationToken) {
 
         String activationURI = "http://localhost:4200/account/activate/"+userId+"/token/"+activationToken;
         Notify n = new Notify();
-
+        EmailTemplate template = new EmailTemplate(name, activationURI);
         n.setConference_id(Constants.SERVER_CONFERENCE);
         n.setCreated_on(new Date());
-        n.setEmail_message(Constants.ACTIVATION_EMAIL_BODY+activationURI);
+        n.setEmail_message(template.getTemplate());
         n.setIs_broadcast("N");
         n.setMethod(Arrays.asList(Constants.SCHEME_EMAIL));
         n.setPriority(Constants.NotifyMethod.ACTIVATION.toString());

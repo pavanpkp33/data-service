@@ -30,6 +30,14 @@ public class DataServiceExceptionHandler extends ResponseEntityExceptionHandler{
         return new ResponseEntity(apiError, HttpStatus.NOT_FOUND);
     }
 
+
+    @ExceptionHandler(NotificationNotFoundException.class)
+    public final ResponseEntity<Object> handleNotificationrNotFoundException(Exception ex, WebRequest request) {
+        ServiceResponse apiError;
+        apiError = new ServiceResponse(Arrays.asList(request.getDescription(false)),ex.getMessage());
+        return new ResponseEntity(apiError, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(SQLException.class)
     public final ResponseEntity<Object> handleSQLException(SQLException ex, WebRequest request) {
         if(ex.getErrorCode() == 1062){

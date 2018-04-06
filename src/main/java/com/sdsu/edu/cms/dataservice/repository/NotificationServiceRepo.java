@@ -1,11 +1,17 @@
 package com.sdsu.edu.cms.dataservice.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public class NotificationServiceRepo implements DataAccessRepository{
+
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Object> findAll(String query, Object... params) {
@@ -24,11 +30,21 @@ public class NotificationServiceRepo implements DataAccessRepository{
 
     @Override
     public int save(String query, Object... params) {
-        return 0;
+        int i;
+        try {
+            i = jdbcTemplate.update(query, params);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            i = -1;
+            return i;
+        }
+
+        return i;
     }
 
     @Override
     public int update(String query, Object... params) {
-        return 0;
+        return jdbcTemplate.update(query, params);
     }
 }
