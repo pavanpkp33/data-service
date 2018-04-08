@@ -14,6 +14,7 @@ public class Query {
     public static final String PURGE_TOKEN = "DELETE FROM USER_ACTIVATION WHERE user_id = ?";
     public static final String SAVE_NOTIFICATION = "INSERT INTO NOTIFICATIONS (notification_id, title, body, sent_on, sender_uid, receiver_email, is_broadcast, cid, priority," +
             " notification_type, sender_name) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+    public static final String GET_NOTIFICATION = "SELECT * FROM NOTIFICATIONS ";
 
 
 

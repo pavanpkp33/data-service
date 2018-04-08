@@ -35,14 +35,36 @@ public class NotifyService {
 
         String query = buildQuery(map.get("field"), map.get("value"), map.get("id"));
         int i = notificationServiceRepo.update(query, null);
-        if(i != 1) throw new NotificationNotFoundException("Notification with ID not found");
+        if(i != 1) throw new NotificationNotFoundException(map.get("id"));
         return new ServiceResponse(Arrays.asList(true), "Notification updated successfully.");
 
     }
 
     public String buildQuery(String field, String value, String id){
-        String query = "UPDATE NOTIFICATIONS SET "+field+" = "+value+" WHERE notification_id = "+id;
+        String query = "UPDATE NOTIFICATIONS SET "+field+" = \'"+value+"\' WHERE notification_id = \'"+id+"\'";
         return query;
+    }
+
+    public ServiceResponse getNotifications(Map<String, String> map){
+        String id = map.get("id");
+        String confId = map.get("cid");
+        String baseQuery = Query.GET_NOTIFICATION;
+        ServiceResponse response = new ServiceResponse();
+        if(id != null && confId != null){
+            baseQuery += "WHERE receiver_email= ? AND cid = ? AND notification_type = \"app\" ";
+            response.setData(notificationServiceRepo.findAll(baseQuery, id, confId));
+            response.setMessage("Notifications queried successfully");
+
+        }else if(id == null && confId != null){
+            baseQuery += "WHERE cid = ?";
+            List<Object> res = notificationServiceRepo.findAll(baseQuery, confId);
+            response.setData(res);
+            response.setMessage("Notifications queried successfully");
+        }else{
+            response.setData(notificationServiceRepo.findAll(baseQuery, null));
+            response.setMessage("Notifications queried successfully");
+        }
+        return response;
     }
 
 

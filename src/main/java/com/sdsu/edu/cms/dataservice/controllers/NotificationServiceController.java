@@ -12,7 +12,7 @@ import java.util.Map;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = {APPLICATION_JSON_VALUE}, consumes = {APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/api/v1", produces = {APPLICATION_JSON_VALUE})
 public class NotificationServiceController {
     @Autowired
     NotifyService notifyService;
@@ -26,5 +26,11 @@ public class NotificationServiceController {
     @PostMapping("/notifications/update")
     public ServiceResponse updateNotifications(@RequestParam Map<String, String> map){
         return notifyService.updateNotifications(map);
+    }
+
+    @PostMapping("/notifications/query")
+    public ServiceResponse getNotifications(@RequestParam Map<String, String> map){
+        return notifyService.getNotifications(map);
+
     }
 }
