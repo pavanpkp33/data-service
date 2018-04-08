@@ -16,6 +16,9 @@ public class Query {
             " notification_type, sender_name) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
     public static final String GET_NOTIFICATION = "SELECT * FROM NOTIFICATIONS ";
 
+    public static final String CREATE_CONFERENCE = "INSERT INTO CONFERENCE (cid, cname, caccronym, cyear, chair_uid, start_date, end_date, web_link, contact, about, banner_url, venue," +
+            "city, country) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
 
 
 }
