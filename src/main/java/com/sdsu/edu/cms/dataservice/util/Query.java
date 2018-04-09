@@ -18,6 +18,14 @@ public class Query {
 
     public static final String CREATE_CONFERENCE = "INSERT INTO CONFERENCE (cid, cname, caccronym, cyear, chair_uid, start_date, end_date, web_link, contact, about, banner_url, venue," +
             "city, country) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public static final String ADD_ROLE = "INSERT INTO CONF_ROLES (cid, uid, role_id ) VALUES (?,?,?)";
+    //Get the roles of user for all conferences
+    public static final String GET_ROLE_CONF = "select c.cid, c.cname, r.role_id from conf_roles r, conference c, users u where c.cid = r.cid AND r.uid = u.id AND u.id = ?";
+    public static final String ADD_TRACK = "INSERT INTO tracks (tname, cid) VALUES (?,?)";
+    public static final String ADD_KEYWORDS_TRACK = "INSERT INTO tracks_keywords (track_id, keyword) VALUES (?,?)";
+
+    public static final String GET_CONF_BY_NAME = "SELECT * FROM conference where caccronym = ? AND valid = 'Y'";
+
 
 
 
