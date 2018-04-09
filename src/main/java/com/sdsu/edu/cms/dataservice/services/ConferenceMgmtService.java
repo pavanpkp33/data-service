@@ -1,5 +1,6 @@
 package com.sdsu.edu.cms.dataservice.services;
 
+import com.google.gson.Gson;
 import com.sdsu.edu.cms.common.models.cms.Conference;
 import com.sdsu.edu.cms.common.models.cms.Track;
 import com.sdsu.edu.cms.common.models.response.ServiceResponse;
@@ -58,5 +59,14 @@ public class ConferenceMgmtService {
         return new ServiceResponse(Arrays.asList(response), "Query successful.");
 
 
+    }
+
+    public ServiceResponse getTrackNames(String id){
+        List<Track> tracks = conferenceServiceRepo.findTracksById(Query.GET_TRACKS, id);
+        for(Track track : tracks){
+            track.setKeywords(conferenceServiceRepo.findKeywordsForTracks(Query.GET_TRACKS_KW, track.getTrackId()));
+        }
+        String jsonStr = new Gson().toJson(tracks).toString();
+        return new ServiceResponse(Arrays.asList(jsonStr), "Query successful.");
     }
 }

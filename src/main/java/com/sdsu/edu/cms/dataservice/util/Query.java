@@ -25,6 +25,8 @@ public class Query {
     public static final String ADD_KEYWORDS_TRACK = "INSERT INTO tracks_keywords (track_id, keyword) VALUES (?,?)";
 
     public static final String GET_CONF_BY_NAME = "SELECT * FROM conference where caccronym = ? AND valid = 'Y'";
+    public static final String GET_TRACKS = "SELECT * FROM tracks WHERE cid = ? AND VALID = 'Y'";
+    public static final String GET_TRACKS_KW = "SELECT keyword FROM tracks_keywords WHERE track_id = ? AND VALID = 'Y'";
 
 
 

@@ -2,10 +2,12 @@ package com.sdsu.edu.cms.dataservice.repository;
 
 import com.google.gson.Gson;
 import com.sdsu.edu.cms.common.models.cms.Conference;
+import com.sdsu.edu.cms.common.models.cms.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -87,12 +90,32 @@ public class ConferenceServiceRepo implements DataAccessRepository {
 
     }
 
-    public int[] batchInsert(String query, List<Object[]> args){
-        int res[] = jdbcTemplate.batchUpdate(query, args);
-        return res;
-    }
     @Override
     public int update(String query, Object... params) {
         return 0;
     }
+
+
+    public int[] batchInsert(String query, List<Object[]> args){
+        int res[] = jdbcTemplate.batchUpdate(query, args);
+        return res;
+    }
+
+    public List<Track> findTracksById(String query, String id){
+        List<Track> tracks = jdbcTemplate.query(query, new Object[]{id}, (rs, rowNum) ->  new Track(rs.getInt("tid"),
+                rs.getString("tname"),
+                null,
+                rs.getString("valid")));
+
+        return tracks;
+
+    }
+
+    public String[] findKeywordsForTracks(String query, int trackId){
+
+        List<String> a  = jdbcTemplate.queryForList(query, new Object[]{trackId}, String.class);
+        return a.toArray(new String[0]);
+    }
+
+
 }

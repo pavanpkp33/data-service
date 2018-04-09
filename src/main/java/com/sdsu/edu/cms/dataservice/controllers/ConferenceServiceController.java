@@ -31,4 +31,9 @@ public class ConferenceServiceController {
     public ServiceResponse getConferenceByName(@RequestParam Map<String, String> map){
         return conferenceMgmtService.getConferenceByName(map.get("cname"));
     }
+
+    @PostMapping("/conferences/get/tracks")
+    public ServiceResponse getTracks(@RequestParam Map<String, String> map){
+         return conferenceMgmtService.getTrackNames(map.get("id"));
+    }
 }
