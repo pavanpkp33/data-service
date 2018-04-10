@@ -29,6 +29,11 @@ public class Query {
     public static final String GET_TRACKS_KW = "SELECT keyword FROM tracks_keywords WHERE track_id = ? AND VALID = 'Y'";
 
 
+    public static final String ADD_SUBMISSION = "INSERT INTO submissions (sid, cid, title, submission_date, submit_author_id, track_id, abstract_text, last_updated, decision_status," +
+            " group_app VALUES(?,?,?,?,?,?,?,?,?,?)";
+
+    public static final String GET_TRACKS_KW_FOR_CID = "SELECT a.tid, b.keyword FROM tracks a LEFT OUTER JOIN tracks_keywords b ON a.tid = b.track_id  WHERE a.cid = ? AND a.valid = 'Y' AND b.valid = 'Y'";
+
 
 
 }
