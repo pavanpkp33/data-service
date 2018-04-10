@@ -10,6 +10,8 @@ import com.sdsu.edu.cms.dataservice.util.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +29,7 @@ public class ConferenceMgmtService {
        }else if(i == -2){
            return  new ServiceResponse(Arrays.asList(false), "-2");
        }else{
-           conferenceServiceRepo.save(Query.ADD_ROLE, conference.getConference_id(), conference.getChair_id(), Constants.ROLE_CHAIR);
+           conferenceServiceRepo.save(Query.ADD_ROLE, conference.getCid(), conference.getChair_uid(), Constants.ROLE_CHAIR);
            return  new ServiceResponse(Arrays.asList(true), "Conference created successfully");
        }
     }
@@ -68,5 +70,41 @@ public class ConferenceMgmtService {
         }
         String jsonStr = new Gson().toJson(tracks).toString();
         return new ServiceResponse(Arrays.asList(jsonStr), "Query successful.");
+    }
+
+    public ServiceResponse updateConferenceData(Conference conference, String id){
+         String query = buildQuery(conference, id);
+         int status = conferenceServiceRepo.save(query, null);
+         if(status == 0 || status == -1) return new ServiceResponse(Arrays.asList(false), "-1");
+         return  new ServiceResponse(Arrays.asList(true), "Conference updated successfully.");
+    }
+
+    public String buildQuery(Conference conference, String id){
+        String query = "UPDATE CONFERENCE SET ";
+        boolean flag = true;
+        for (Field field : conference.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(conference);
+                if(value != null && !value.toString().equals("0")){
+                    if(field.getName().equals("start_date") || field.getName().equals("end_date")){
+                        query += ", "+ field.getName() +" = \""+new SimpleDateFormat("yyyy-MM-dd").format(value)+ "\" "; continue;
+                    }
+                    if(flag){
+                        query += field.getName() +" = \""+value.toString()+"\"";
+                        flag=false;
+                    }else{
+                        query += ", "+ field.getName() +" = \""+value.toString()+ "\" ";
+                    }
+
+                }
+
+
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        query += "WHERE cid = \""+id+"\"";
+        return query;
     }
 }

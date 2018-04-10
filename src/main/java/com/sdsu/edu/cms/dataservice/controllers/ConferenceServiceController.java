@@ -36,4 +36,9 @@ public class ConferenceServiceController {
     public ServiceResponse getTracks(@RequestParam Map<String, String> map){
          return conferenceMgmtService.getTrackNames(map.get("id"));
     }
+
+    @PostMapping("/conferences/update")
+    public ServiceResponse updateConference(@RequestBody Conference conference, @RequestParam Map<String, String> map){
+        return conferenceMgmtService.updateConferenceData(conference, map.get("cid"));
+    }
 }
