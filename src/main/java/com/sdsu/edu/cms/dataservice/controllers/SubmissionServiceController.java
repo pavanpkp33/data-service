@@ -16,8 +16,12 @@ public class SubmissionServiceController {
 
     @Autowired
     SubmissionService submissionService;
+
     @PostMapping("/submissions/create")
     public ServiceResponse createSubmission(@RequestBody Submission submission){
-        return submissionService.addSubmission(submission);
+        ServiceResponse response =
+                submissionService.addSubmission(submission);
+
+        return response;
     }
 }

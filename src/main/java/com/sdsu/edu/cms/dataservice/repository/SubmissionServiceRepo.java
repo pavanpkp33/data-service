@@ -11,6 +11,7 @@ import java.util.List;
 
 @Repository
 public class SubmissionServiceRepo implements DataAccessRepository{
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -48,7 +49,13 @@ public class SubmissionServiceRepo implements DataAccessRepository{
 
     @Override
     public int save(String query, Object... params) {
-        return 0;
+        try{
+            int i = jdbcTemplate.update(query, params);
+            return i;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw e;
+        }
     }
 
     @Override

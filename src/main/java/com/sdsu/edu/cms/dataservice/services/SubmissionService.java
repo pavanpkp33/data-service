@@ -1,19 +1,35 @@
 package com.sdsu.edu.cms.dataservice.services;
 
+import com.google.gson.Gson;
+import com.sdsu.edu.cms.common.models.cms.Authors;
 import com.sdsu.edu.cms.common.models.cms.Submission;
+import com.sdsu.edu.cms.common.models.notification.Notify;
 import com.sdsu.edu.cms.common.models.response.ServiceResponse;
+import com.sdsu.edu.cms.common.models.user.AuthUser;
+import com.sdsu.edu.cms.common.models.user.User;
+import com.sdsu.edu.cms.common.utils.Constants;
+import com.sdsu.edu.cms.common.utils.EmailTemplate;
+import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
+import com.sdsu.edu.cms.dataservice.proxy.NotificationServiceProxy;
+import com.sdsu.edu.cms.dataservice.repository.AuthServiceRepo;
 import com.sdsu.edu.cms.dataservice.repository.SubmissionServiceRepo;
 import com.sdsu.edu.cms.dataservice.util.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Service
+@Component
 public class SubmissionService {
+
+    @Autowired
+    AuthServiceRepo authServiceRepo;
+
+    @Autowired
+    NotificationServiceProxy notificationServiceProxy;
 
     @Autowired
     SubmissionServiceRepo submissionServiceRepo;
@@ -30,9 +46,58 @@ public class SubmissionService {
     public ServiceResponse addSubmission(Submission submission) throws RuntimeException{
        int trackId =  assignGroup(submission.getCid(), submission.getKeyword());
        submission.setGroup_app(trackId);
+       submission.setSid(UUID.randomUUID().toString());
+       submission.setLast_updated(new Date());
+       submission.setSubmission_date(new Date());
+       submissionServiceRepo.save(Query.ADD_SUBMISSION, submission.getParams());
+       String[] kws = submission.getKeyword();
+       for(String keyword : kws){
+           submissionServiceRepo.save(Query.ADD_KEYWORDS_SUBMISSION, submission.getSid(), keyword);
+       }
+       List<Authors> authors = submission.getAuthorsList();
+       List<String>  emailAuthors = new ArrayList<>();
+       for(Authors a : authors){
+           emailAuthors.add(a.getEmail());
+           try{
+               String res = authServiceRepo.findOne(Query.GET_USER_BY_EMAIL, a.getEmail()).toString();
+               AuthUser u =  new Gson().fromJson(res, AuthUser.class);
+               submissionServiceRepo.save(Query.ADD_ROLE, submission.getCid(), u.getId(), Constants.ROLE_AUTHOR);
+               submissionServiceRepo.save(Query.ADD_CONF_SUB_USERS, submission.getCid(), submission.getSid(), u.getId(), a.getIs_corresponding());
+
+           }catch (UserNotFoundException e){
+               // Insert user into DB
+
+               addUserWithDefaultValues(a, submission);
 
 
-        return null;
+           }
+       }
+       EmailTemplate temp = new EmailTemplate();
+       String url = "http://localhost:4200/conferences/"+submission.getCid()+"/"+submission.getSid();
+       temp.setSubmissionTemplate(url, submission.getSid());
+       notificationServiceProxy.notify(buildPayLoad(temp.getSubmissionTemplate(), "Important information about your paper submission.", emailAuthors));
+       return new ServiceResponse(Arrays.asList(true), "Submission added successfully");
+    }
+
+    private void addUserWithDefaultValues(Authors a, Submission submission) {
+        User user = new User();
+        user.setvalid("Y");
+        user.setis_active("Y");
+        user.setis_participating("Y");
+        user.setEmail(a.getEmail());
+        user.setId(UUID.randomUUID().toString());
+        user.setfirst_name(a.getFirst_name());
+        user.setlast_name(a.getLast_name());
+        user.setmiddle_name(a.getMiddle_name());
+        user.setTitle(a.getTitle());
+        user.setAffiliation(a.getAffiliation());
+        user.setPassword(BCrypt.hashpw(a.getEmail(), BCrypt.gensalt()));
+        submissionServiceRepo.save(Query.SAVE_USER, user.getArray());
+        submissionServiceRepo.save(Query.ADD_ROLE, submission.getCid(), user.getId(), Constants.ROLE_AUTHOR);
+        submissionServiceRepo.save(Query.ADD_CONF_SUB_USERS, submission.getCid(), submission.getSid(), user.getId(), a.getIs_corresponding());
+        EmailTemplate template = new EmailTemplate();
+        template.setUserTemplate(a.getEmail(), a.getEmail());
+        notificationServiceProxy.notify(buildPayLoad(template.getUserTemplate(), Constants.NEW_USER_ACCOUNT, Arrays.asList(a.getEmail())));
     }
 
     public int assignGroup(String confId, String[] keywords){
@@ -50,6 +115,24 @@ public class SubmissionService {
             }
         });
         return tid.get();
+    }
+
+    private Notify buildPayLoad(String template, String subject, List<String> receivers) {
+
+
+        Notify n = new Notify();
+        n.setConference_id(Constants.SERVER_CONFERENCE);
+        n.setCreated_on(new Date());
+        n.setEmail_message(template);
+        n.setIs_broadcast("N");
+        n.setMethod(Arrays.asList(Constants.SCHEME_EMAIL));
+        n.setPriority(Constants.NotifyMethod.MESSAGE.toString());
+        n.setReceiver(receivers);
+        n.setSender_id(Constants.SERVER_ID);
+        n.setSubject(subject);
+        n.setSender_name(Constants.SERVER_NAME);
+
+        return n;
     }
 
 }
