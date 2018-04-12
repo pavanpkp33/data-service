@@ -62,4 +62,18 @@ public class SubmissionServiceRepo implements DataAccessRepository{
     public int update(String query, Object... params) {
         return 0;
     }
+
+    public int delete(String query, Object... params){
+        try{
+            return jdbcTemplate.update(query, params);
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw e;
+        }
+    }
+
+
+
+
 }

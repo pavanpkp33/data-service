@@ -24,4 +24,12 @@ public class SubmissionServiceController {
 
         return response;
     }
+
+    @PostMapping("/submissions/update")
+    public ServiceResponse updateSubmission(@RequestBody Submission submission){
+        ServiceResponse response =
+                submissionService.updateSubmission(submission);
+
+        return response;
+    }
 }

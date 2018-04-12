@@ -15,6 +15,7 @@ import com.sdsu.edu.cms.dataservice.repository.AuthServiceRepo;
 import com.sdsu.edu.cms.dataservice.repository.SubmissionServiceRepo;
 import com.sdsu.edu.cms.dataservice.util.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,7 +76,7 @@ public class SubmissionService {
        EmailTemplate temp = new EmailTemplate();
        String url = "http://localhost:4200/conferences/"+submission.getCid()+"/"+submission.getSid();
        temp.setSubmissionTemplate(url, submission.getSid());
-       notificationServiceProxy.notify(buildPayLoad(temp.getSubmissionTemplate(), "Important information about your paper submission.", emailAuthors));
+       sendNotifications( temp.getSubmissionTemplate(),"Important information about your paper submission.", emailAuthors );
        return new ServiceResponse(Arrays.asList(true), "Submission added successfully");
     }
 
@@ -97,8 +98,16 @@ public class SubmissionService {
         submissionServiceRepo.save(Query.ADD_CONF_SUB_USERS, submission.getCid(), submission.getSid(), user.getId(), a.getIs_corresponding());
         EmailTemplate template = new EmailTemplate();
         template.setUserTemplate(a.getEmail(), a.getEmail());
-        notificationServiceProxy.notify(buildPayLoad(template.getUserTemplate(), Constants.NEW_USER_ACCOUNT, Arrays.asList(a.getEmail())));
+        sendNotifications(template.getUserTemplate(), Constants.NEW_USER_ACCOUNT, Arrays.asList(a.getEmail()));
+        
     }
+    @Async("notificationExecutor")
+    public void sendNotifications(String template, String type, List<String> emails) {
+        notificationServiceProxy.notify(buildPayLoad(template, type
+                , emails));
+    }
+
+
 
     public int assignGroup(String confId, String[] keywords){
         HashMap<Integer, HashSet<String>> map = (HashMap) submissionServiceRepo.findOne(Query.GET_TRACKS_KW_FOR_CID, confId);
@@ -134,5 +143,40 @@ public class SubmissionService {
 
         return n;
     }
+
+    @Transactional
+    public ServiceResponse updateSubmission(Submission submission) throws RuntimeException{
+        String sid = submission.getSid();
+        submission.setSid(null);
+        //delete the keywords first.
+        if(submission.getKeyword() != null && submission.getKeyword().length > 0){
+            submissionServiceRepo.delete(Query.DELETE_USER_KEYWORDS, new Object[]{sid});
+            for(String kw : submission.getKeyword()){
+                submissionServiceRepo.save(Query.ADD_KEYWORDS_SUBMISSION, sid, kw);
+            }
+        }
+
+        submissionServiceRepo.delete(Query.DELETE_FILES, new Object[]{sid});
+        if(submission.getDraftPaperUri() != null && !submission.getDraftPaperUri().isEmpty()){
+            submissionServiceRepo.save(Query.SAVE_FILES, UUID.randomUUID().toString(),1,submission.getDraftPaperUri(),
+                    new Date(), submission.getSubmit_author_id(), "Y", sid);
+        }
+        if(submission.getFinalPaperUri() != null && !submission.getFinalPaperUri().isEmpty()){
+            submissionServiceRepo.save(Query.SAVE_FILES, UUID.randomUUID().toString(),2,submission.getFinalPaperUri(),
+                    new Date(), submission.getSubmit_author_id(), "Y", sid);
+        }
+        if(submission.getCameraReadyPaperUri() != null && !submission.getCameraReadyPaperUri().isEmpty()){
+            submissionServiceRepo.save(Query.SAVE_FILES, UUID.randomUUID().toString(),3,submission.getCameraReadyPaperUri(),
+                    new Date(), submission.getSubmit_author_id(), "Y", sid);
+        }
+        //Updating submission table.
+        submissionServiceRepo.save(Query.UPDATE_SUBMISSION, submission.getTitle(), submission.getTrack_id(), submission.getAbstract_text(),
+                new Date(), sid);
+
+
+        return new ServiceResponse(Arrays.asList(true), "Submission updated successfully");
+    }
+
+
 
 }

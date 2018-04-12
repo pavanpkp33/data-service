@@ -35,7 +35,9 @@ public class Query {
     public static final String ADD_KEYWORDS_SUBMISSION = "INSERT INTO keywords (sid, keyword) VALUES (?,?)";
 
     public static final String GET_TRACKS_KW_FOR_CID = "SELECT a.tid, b.keyword FROM tracks a LEFT OUTER JOIN tracks_keywords b ON a.tid = b.track_id  WHERE a.cid = ? AND a.valid = 'Y' AND b.valid = 'Y'";
-
-
+    public static final String DELETE_USER_KEYWORDS = "DELETE FROM keywords where sid =?";
+    public static final String DELETE_FILES  = "DELETE FROM files where sid =?";
+    public static final String SAVE_FILES = "INSERT INTO files (file_id, type_id, file_url, uploaded_time, uploaded_by_user, valid, sid) VALUES(?,?,?,?,?,?,?)";
+    public static final String UPDATE_SUBMISSION = "UPDATE submissions SET title = ?, track_id = ?, abstract_text =?,last_updated = ? WHERE sid = ?";
 
 }
