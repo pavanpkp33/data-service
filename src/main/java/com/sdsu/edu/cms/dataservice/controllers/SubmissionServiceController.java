@@ -5,10 +5,9 @@ import com.sdsu.edu.cms.common.models.cms.Submission;
 import com.sdsu.edu.cms.common.models.response.ServiceResponse;
 import com.sdsu.edu.cms.dataservice.services.SubmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -29,6 +28,18 @@ public class SubmissionServiceController {
     public ServiceResponse updateSubmission(@RequestBody Submission submission){
         ServiceResponse response =
                 submissionService.updateSubmission(submission);
+
+        return response;
+    }
+
+    @PostMapping("/submissions/get")
+    public ServiceResponse getSubmission(@RequestParam Map<String, String> params){
+        String confId = params.get("cid");
+        String sid = "";
+        if(params.containsKey("sid")){
+            sid = params.get("sid");
+        }
+        ServiceResponse response =null;
 
         return response;
     }

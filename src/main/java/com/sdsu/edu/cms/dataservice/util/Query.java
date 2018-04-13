@@ -40,4 +40,9 @@ public class Query {
     public static final String SAVE_FILES = "INSERT INTO files (file_id, type_id, file_url, uploaded_time, uploaded_by_user, valid, sid) VALUES(?,?,?,?,?,?,?)";
     public static final String UPDATE_SUBMISSION = "UPDATE submissions SET title = ?, track_id = ?, abstract_text =?,last_updated = ? WHERE sid = ?";
 
+    public static final String GET_SUBMISSION_BY_ID = "SELECT s.sid, s.title, s.submission_date, s.submit_author_id, s.track_id, s.abstract_text, s.last_updated, s.decision_status," +
+            " s.is_paid, s.group_app, u.first_name, u.email, t.tname  FROM submissions s, tracks t, users u WHERE s.submit_author_id = u.id AND t.tid = s.track_id AND s.sid = ? AND s.valid='Y'";
+
+    public static final String GET_SUBMISSION_BY_CONF = "SELECT s.sid, s.title, s.submission_date, s.submit_author_id, s.track_id, s.abstract_text, s.last_updated, s.decision_status," +
+            " s.is_paid, s.group_app, u.first_name, u.email, t.tname  FROM submissions s, tracks t, users u WHERE s.submit_author_id = u.id AND t.tid = s.track_id AND s.cid = ? AND s.valid='Y'";
 }

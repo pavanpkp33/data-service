@@ -177,6 +177,12 @@ public class SubmissionService {
         return new ServiceResponse(Arrays.asList(true), "Submission updated successfully");
     }
 
+    @Transactional
+    public ServiceResponse getSubmission(String cid, String sid){
 
+
+
+        return new ServiceResponse(null, null);
+    }
 
 }
