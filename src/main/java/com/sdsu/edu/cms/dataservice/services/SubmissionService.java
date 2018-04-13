@@ -179,10 +179,52 @@ public class SubmissionService {
 
     @Transactional
     public ServiceResponse getSubmission(String cid, String sid){
+        List<Submission> result;
+        Map<Integer, String> mp;
+        if(sid == null){
+            result = submissionServiceRepo.findSubmisisons(Query.GET_SUBMISSION_BY_CONF, cid);
+            if(result.isEmpty()) return new ServiceResponse(null, "No submissions found");
+
+            for(Submission s : result){
+                s.setKeyword(submissionServiceRepo.getKeywords(Query.GET_KWS_BY_SID, s.getSid()));
+                s.setAuthorsList(submissionServiceRepo.getAuthors(Query.GET_AUTHORS_BY_SID,s.getSid()));
+                mp = submissionServiceRepo.getFilesData(Query.GET_FILES_BY_SID, s.getSid());
+                processFilesInput(s, mp);
+
+            }
+        }else{
+            result = submissionServiceRepo.findSubmisisons(Query.GET_SUBMISSION_BY_ID, sid);
+            if(result.isEmpty()) return new ServiceResponse(null, "No submissions found");
+            result.get(0).setKeyword(submissionServiceRepo.getKeywords(Query.GET_KWS_BY_SID, sid));
+            result.get(0).setAuthorsList(submissionServiceRepo.getAuthors(Query.GET_AUTHORS_BY_SID,sid));
+            mp = submissionServiceRepo.getFilesData(Query.GET_FILES_BY_SID, sid);
+            processFilesInput(result.get(0), mp);
+
+        }
 
 
 
-        return new ServiceResponse(null, null);
+        String res = new Gson().toJson(result).toString();
+        return new ServiceResponse(Arrays.asList(res), "Query successful.");
+    }
+
+    private Submission processFilesInput(Submission s, Map<Integer, String> mapOfFiles){
+        for(Integer i : mapOfFiles.keySet()){
+            switch (i){
+                case 1 : s.setDraftPaperUri(mapOfFiles.get(i));
+                         break;
+
+
+                case 2: s.setFinalPaperUri(mapOfFiles.get(i));
+                        break;
+
+                case 3: s.setCameraReadyPaperUri(mapOfFiles.get(i));
+
+            }
+        }
+
+        return s;
+
     }
 
 }

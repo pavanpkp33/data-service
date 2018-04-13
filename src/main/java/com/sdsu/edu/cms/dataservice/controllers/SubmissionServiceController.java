@@ -39,7 +39,7 @@ public class SubmissionServiceController {
         if(params.containsKey("sid")){
             sid = params.get("sid");
         }
-        ServiceResponse response =null;
+        ServiceResponse response = submissionService.getSubmission(confId, sid);
 
         return response;
     }
