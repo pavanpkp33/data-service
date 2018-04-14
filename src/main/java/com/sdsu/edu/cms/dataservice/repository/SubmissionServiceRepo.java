@@ -1,6 +1,7 @@
 package com.sdsu.edu.cms.dataservice.repository;
 
 
+import com.google.gson.Gson;
 import com.sdsu.edu.cms.common.models.cms.Authors;
 import com.sdsu.edu.cms.common.models.cms.Submission;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,11 +82,11 @@ public class SubmissionServiceRepo implements DataAccessRepository{
                 submission = new Submission();
                 submission.setSid(rs.getString(1));
                 submission.setTitle(rs.getString(2));
-                submission.setSubmission_date(rs.getTimestamp(3));
+                submission.setSubmission_date(rs.getTimestamp(3, Calendar.getInstance()));
                 submission.setSubmit_author_id(rs.getString(4));
                 submission.setTrack_id(rs.getInt(5));
                 submission.setAbstract_text(rs.getString(6));
-                submission.setLast_updated(rs.getTimestamp(7));
+                submission.setLast_updated(rs.getTimestamp(7, Calendar.getInstance()));
                 submission.setDecision_status(rs.getString(8));
                 submission.setIs_paid(rs.getString(9));
                 submission.setGroup_app(rs.getInt(10));

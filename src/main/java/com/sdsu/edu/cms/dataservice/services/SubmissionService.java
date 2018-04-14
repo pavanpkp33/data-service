@@ -1,6 +1,7 @@
 package com.sdsu.edu.cms.dataservice.services;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sdsu.edu.cms.common.models.cms.Authors;
 import com.sdsu.edu.cms.common.models.cms.Submission;
 import com.sdsu.edu.cms.common.models.notification.Notify;
@@ -181,7 +182,8 @@ public class SubmissionService {
     public ServiceResponse getSubmission(String cid, String sid){
         List<Submission> result;
         Map<Integer, String> mp;
-        if(sid == null){
+        if(sid == "" || sid == null ){
+
             result = submissionServiceRepo.findSubmisisons(Query.GET_SUBMISSION_BY_CONF, cid);
             if(result.isEmpty()) return new ServiceResponse(null, "No submissions found");
 
@@ -201,11 +203,10 @@ public class SubmissionService {
             processFilesInput(result.get(0), mp);
 
         }
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        Object t = gson.toJson(result).toString();
 
-
-
-        String res = new Gson().toJson(result).toString();
-        return new ServiceResponse(Arrays.asList(res), "Query successful.");
+        return new ServiceResponse(Arrays.asList(t), "Query successful.");
     }
 
     private Submission processFilesInput(Submission s, Map<Integer, String> mapOfFiles){
