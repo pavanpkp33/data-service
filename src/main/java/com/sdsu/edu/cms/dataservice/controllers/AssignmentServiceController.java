@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,5 +20,10 @@ public class AssignmentServiceController {
     @PostMapping("/assignment/create")
     public ServiceResponse addAssignment(@RequestParam Map<String, Object> params){
         return assignmentService.addAssignment(params);
+    }
+
+    @PostMapping("/assignment/get")
+    public ServiceResponse getAssignment(@RequestParam Map<String, String> params){
+        return assignmentService.getAssignments(params.get("sid"));
     }
 }

@@ -59,4 +59,7 @@ public class Query {
     Assignment queries
      */
     public static final String ASSIGN_REVIEWER = "INSERT INTO ASSIGNMENT (assignment_id, reviewer_id, sid, cid) VALUES (?,?,?,?)";
+    public static final String GET_ASSIGNMENT_BY_SID = "SELECT a.assignment_id, a.reviewer_id, u.first_name, u.email, a.sid, a.cid FROM assignment a, users u WHERE a.reviewer_id = u.id AND a.valid = 'Y' AND a.sid = ?";
+    public static final String DELETE_ASSINGMENT_BY_ID = "UPDATE ASSIGNMENT SET valid = 'N' WHERE assignment_id = ?";
+    public static final String DELETE_ASSIGNMENT_BY_SID = "UPDATE ASSIGNMENT SET valid = 'N' WHERE sid = ?";
 }

@@ -32,4 +32,10 @@ public class AssignmentService {
         }
 
     }
+
+    public ServiceResponse getAssignments(String sid) {
+        return  new ServiceResponse(assignmentServiceRepo.findAll(Query.GET_ASSIGNMENT_BY_SID, sid),
+                "Assignments queried successfully");
+
+    }
 }
