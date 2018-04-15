@@ -9,6 +9,7 @@ import com.sdsu.edu.cms.dataservice.repository.ConferenceServiceRepo;
 import com.sdsu.edu.cms.dataservice.util.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -107,4 +108,17 @@ public class ConferenceMgmtService {
         query += "WHERE cid = \""+id+"\"";
         return query;
     }
+
+    @Transactional
+    public ServiceResponse deleteConference(String id){
+        int i = conferenceServiceRepo.update(Query.DELETE_CONFERENCE, id);
+        int j = conferenceServiceRepo.update(Query.DELETE_CONF_ROLES, id);
+
+        if(i != -1 || j != -1){
+            return new ServiceResponse(Arrays.asList(true), "Conference deleted Successfully");
+        }else{
+            return new ServiceResponse(Arrays.asList(false), "Failed to delete conference");
+        }
+    }
+
 }

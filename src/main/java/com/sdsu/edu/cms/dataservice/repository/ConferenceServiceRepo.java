@@ -92,7 +92,13 @@ public class ConferenceServiceRepo implements DataAccessRepository {
 
     @Override
     public int update(String query, Object... params) {
-        return 0;
+        try{
+            return  jdbcTemplate.update(query, params);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
+        }
     }
 
 

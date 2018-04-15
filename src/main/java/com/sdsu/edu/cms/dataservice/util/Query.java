@@ -18,9 +18,11 @@ public class Query {
 
     public static final String CREATE_CONFERENCE = "INSERT INTO CONFERENCE (cid, cname, caccronym, cyear, chair_uid, start_date, end_date, web_link, contact, about, banner_url, venue," +
             "city, country) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public static final String DELETE_CONFERENCE = "UPDATE CONFERENCE SET valid = 'N' WHERE cid = ?";
+    public static final String DELETE_CONF_ROLES = "UPDATE CONF_ROLES SET valid = 'N' WHERE cid = ?";
     public static final String ADD_ROLE = "INSERT INTO CONF_ROLES (cid, uid, role_id ) VALUES (?,?,?)";
     //Get the roles of user for all conferences
-    public static final String GET_ROLE_CONF = "select c.cid, c.cname, r.role_id from conf_roles r, conference c, users u where c.cid = r.cid AND r.uid = u.id AND u.id = ?";
+    public static final String GET_ROLE_CONF = "select c.cid, c.cname, r.role_id from conf_roles r, conference c, users u where c.cid = r.cid AND r.uid = u.id AND AND r.valid = 'Y' AND u.id = ?";
     public static final String ADD_TRACK = "INSERT INTO tracks (tname, cid) VALUES (?,?)";
     public static final String ADD_KEYWORDS_TRACK = "INSERT INTO tracks_keywords (track_id, keyword) VALUES (?,?)";
 

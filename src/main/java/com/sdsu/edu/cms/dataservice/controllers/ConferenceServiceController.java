@@ -42,5 +42,12 @@ public class ConferenceServiceController {
         return conferenceMgmtService.updateConferenceData(conference, map.get("cid"));
     }
 
+    @PostMapping("/conferences/delete")
+    public ServiceResponse deleteConferences(@RequestParam Map<String, String> map){
+        String confId = map.get("id");
+        return conferenceMgmtService.deleteConference(confId);
+
+    }
+
     //TODO: Update Tracks -- If track ID exists, update else create new. For keywords, delete all and re-insert.
 }
