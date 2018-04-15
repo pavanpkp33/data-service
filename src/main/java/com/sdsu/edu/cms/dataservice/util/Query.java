@@ -54,4 +54,9 @@ public class Query {
 
     public static final String DELETE_SUBMISSION = "UPDATE submissions SET valid = 'N' WHERE sid = ?";
     public static final String DELETE_CONF_USERS = "UPDATE conf_sub_users SET valid = 'N' WHERE sid =?";
+
+    /*
+    Assignment queries
+     */
+    public static final String ASSIGN_REVIEWER = "INSERT INTO ASSIGNMENT (assignment_id, reviewer_id, sid, cid) VALUES (?,?,?,?)";
 }
