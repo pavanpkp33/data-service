@@ -38,4 +38,17 @@ public class AssignmentService {
                 "Assignments queried successfully");
 
     }
+
+    public ServiceResponse deleteAssignment(Map<String, Object> params) {
+        String sid = params.get("sid").toString();
+
+
+        try{
+            assignmentServiceRepo.save(Query.DELETE_ASSIGNMENT_BY_SID, sid);
+            return new ServiceResponse(Arrays.asList(true), "Reviewers deleted successfully");
+        }catch (Exception e){
+            return new ServiceResponse(Arrays.asList(e.getMessage()), "Failed to delete reviewers");
+        }
+
+    }
 }

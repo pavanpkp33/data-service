@@ -1,5 +1,6 @@
 package com.sdsu.edu.cms.dataservice.controllers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sdsu.edu.cms.common.models.response.ServiceResponse;
 import com.sdsu.edu.cms.dataservice.services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,10 @@ public class AssignmentServiceController {
     @PostMapping("/assignment/get")
     public ServiceResponse getAssignment(@RequestParam Map<String, String> params){
         return assignmentService.getAssignments(params.get("sid"));
+    }
+
+    @PostMapping("/assignment/delete")
+    public ServiceResponse deleteAssignment(@RequestParam Map<String, Object> params){
+        return assignmentService.deleteAssignment(params);
     }
 }
