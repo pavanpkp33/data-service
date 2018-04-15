@@ -43,4 +43,20 @@ public class SubmissionServiceController {
 
         return response;
     }
+
+    @PostMapping("/submissions/delete")
+    public ServiceResponse deleteConference(@RequestParam Map<String, String> mp){
+        String submissionId = mp.get("sid");
+        return  submissionService.deleteConference(submissionId);
+
+    }
+
+    @PostMapping("/submissions/patch")
+    public ServiceResponse patchConference(@RequestBody String sid, @RequestParam Map<String, Object> mp){
+
+        return  submissionService.patchConference(sid, mp);
+
+    }
+
+
 }

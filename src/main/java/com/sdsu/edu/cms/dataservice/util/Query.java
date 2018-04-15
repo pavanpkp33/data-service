@@ -49,4 +49,7 @@ public class Query {
     public static final String GET_KWS_BY_SID ="SELECT keyword from keywords WHERE sid = ? AND valid = 'Y'";
     public static final String GET_AUTHORS_BY_SID = "SELECT c.uid, c.is_corresponding_user, u.first_name, u.last_name, u.email from users u, conf_sub_users c WHERE c.uid = u.id AND c.valid = 'Y' AND sid = ?";
     public static final String GET_FILES_BY_SID = "SELECT type_id, file_url FROM files WHERE valid = 'Y' AND sid = ?";
+
+    public static final String DELETE_SUBMISSION = "UPDATE submissions SET valid = 'N' WHERE sid = ?";
+    public static final String DELETE_CONF_USERS = "UPDATE conf_sub_users SET valid = 'N' WHERE sid =?";
 }

@@ -228,4 +228,45 @@ public class SubmissionService {
 
     }
 
+    @Transactional
+    public ServiceResponse deleteConference(String sid){
+        submissionServiceRepo.delete(Query.DELETE_SUBMISSION, sid);
+        submissionServiceRepo.delete(Query.DELETE_CONF_USERS, sid);
+        return new ServiceResponse(Arrays.asList(true), "Submission deleted successfully.");
+    }
+
+    @Transactional
+    public  ServiceResponse patchConference(String sid, Map params){
+        String query = buildPatchQuery(sid, params);
+        submissionServiceRepo.save(query, null);
+        return new ServiceResponse(Arrays.asList(true), "Submission updated successfully.");
+
+    }
+
+    private String buildPatchQuery(String sid, Map<String, Object> params) {
+        String query = "UPDATE submissions SET ";
+        boolean flag = true;
+        for(String key : params.keySet()){
+            if(key.equals("group_app") || key.equals("track_id")){
+                if(flag){
+                    query += key+" = "+params.get(key).toString();
+                    flag= false;
+                }else{
+                    query += ", "+key+" = "+params.get(key).toString();
+                }
+            }else{
+                if(flag){
+                    query += key+" = '"+params.get(key)+"'";
+                    flag= false;
+                }else{
+                    query += ", "+key+" = '"+params.get(key)+"'";
+                }
+            }
+        }
+
+        query += " WHERE sid = '"+sid+"'";
+        return  query;
+    }
+
+
 }
