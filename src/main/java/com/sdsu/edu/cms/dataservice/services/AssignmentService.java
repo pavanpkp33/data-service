@@ -51,4 +51,14 @@ public class AssignmentService {
         }
 
     }
+
+    public ServiceResponse deleteAssignmentById(String assignmentId) {
+
+        try{
+            assignmentServiceRepo.save(Query.DELETE_ASSINGMENT_BY_ID, assignmentId);
+            return new ServiceResponse(Arrays.asList(true), "Reviewer deleted successfully");
+        }catch (Exception e){
+            return new ServiceResponse(Arrays.asList(e.getMessage()), "Failed to delete reviewer");
+        }
+    }
 }

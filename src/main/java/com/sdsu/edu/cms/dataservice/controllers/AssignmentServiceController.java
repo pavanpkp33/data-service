@@ -32,4 +32,9 @@ public class AssignmentServiceController {
     public ServiceResponse deleteAssignment(@RequestParam Map<String, Object> params){
         return assignmentService.deleteAssignment(params);
     }
+
+    @PostMapping("/assignment/delete/id")
+    public ServiceResponse deleteAssignmentById(@RequestParam Map<String, String> params){
+        return assignmentService.deleteAssignmentById(params.get("assignmentId"));
+    }
 }

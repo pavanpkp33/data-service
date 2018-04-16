@@ -62,4 +62,14 @@ public class Query {
     public static final String GET_ASSIGNMENT_BY_SID = "SELECT a.assignment_id, a.reviewer_id, u.first_name, u.email, a.sid, a.cid FROM assignment a, users u WHERE a.reviewer_id = u.id AND a.valid = 'Y' AND a.sid = ?";
     public static final String DELETE_ASSINGMENT_BY_ID = "UPDATE ASSIGNMENT SET valid = 'N' WHERE assignment_id = ?";
     public static final String DELETE_ASSIGNMENT_BY_SID = "UPDATE ASSIGNMENT SET valid = 'N' WHERE sid = ?";
+
+    /*
+    Reviews query
+     */
+    public static final String GET_REVIEWERS_CONF = "SELECT c.uid, c.cid, c.role_id, u.first_name, u.email FROM conf_roles c, users u WHERE c.uid = u.id AND c.role_id = 'ROLE_REVIEWER' AND c.cid = ? AND c.valid = 'Y'";
+    public static final String ADD_REVIEW = "INSERT INTO REVIEWS (rid, sid, uid, review, score, message_to_chair, confidence_score) VALUES(?,?,?,?,?,?,?)";
+    public static final String GET_REVIEW_SUBID = "SELECT r.rid, r.sid, r.uid, r.review, r.score, r.message_to_chair, r.confidence_score, r.last_updated, r.publish, u.first_name, u.email " +
+            "FROM reviews r, users u WHERE r.uid = u.id AND r.valid = 'Y' AND r.sid = ?";
+
+
 }
