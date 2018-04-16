@@ -30,4 +30,24 @@ public class ReviewServiceController {
         return  reviewService.getReviewBySubmissionID(mp.get("sid"));
     }
 
+    @PostMapping("/reviews/get/rid")
+    public ServiceResponse getReviewsByRid(@RequestParam Map<String, String> params){
+        return reviewService.getReviewByReviewId(params.get("rid"));
+    }
+
+    @PostMapping("/reviews/update")
+    public ServiceResponse updateReviews(@RequestBody Review review){
+        return reviewService.updateReview(review);
+    }
+
+    @PostMapping("/reviews/publish")
+    public ServiceResponse publishReviews(@RequestParam Map<String, String> params){
+        return  reviewService.publishReviews(params.get("sid"));
+    }
+
+    @PostMapping("/reviews/delete")
+    public ServiceResponse deleteReviews(@RequestParam Map<String, String> params){
+        return reviewService.deleteReview(params.get("rid"));
+    }
+
 }

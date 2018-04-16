@@ -53,7 +53,7 @@ public class ReviewServiceRepo implements DataAccessRepository{
         return 0;
     }
 
-    public List<Review> findReviewBySubmisison(String query, Object ...params){
+    public List<Review> findReview(String query, Object ...params){
         List<Review> reviews = jdbcTemplate.query(query, params, (rs, rowNum) -> new Review(rs.getString("rid"),
                 rs.getString("sid"),
                 null,
