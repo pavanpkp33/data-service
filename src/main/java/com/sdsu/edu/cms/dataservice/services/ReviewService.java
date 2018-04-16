@@ -60,6 +60,7 @@ public class ReviewService {
         columns.put("messageChair", "message_to_chair");
         columns.put("confidenceScore", "confidence_score");
         columns.put("publish", "publish");
+        columns.put("valid", "valid");
 
 
         String query = "UPDATE REVIEWS SET ";
