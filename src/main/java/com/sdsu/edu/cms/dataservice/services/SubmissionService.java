@@ -269,4 +269,13 @@ public class SubmissionService {
     }
 
 
+    public ServiceResponse deleteAuthor(String sid, String aid) {
+        submissionServiceRepo.save(Query.DELETE_AUTHOR_FOR_SUB, sid, aid);
+        return new ServiceResponse(Arrays.asList(true), "Author deleted successfully");
+    }
+
+    public ServiceResponse deleteFiles(String sid, int type_id) {
+        submissionServiceRepo.save(Query.DELETE_FILES_SINGLE, sid, type_id);
+        return new ServiceResponse(Arrays.asList(true), "File deleted successfully");
+    }
 }

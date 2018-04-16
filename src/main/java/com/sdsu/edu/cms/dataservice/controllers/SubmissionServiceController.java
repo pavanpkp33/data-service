@@ -58,5 +58,15 @@ public class SubmissionServiceController {
 
     }
 
+    @PostMapping("/submissions/author/delete")
+    public ServiceResponse deleteAuthor(@RequestParam Map<String, String> params){
+        return submissionService.deleteAuthor(params.get("sid"), params.get("aid"));
+    }
+
+    @PostMapping("/submissions/files/delete")
+    public ServiceResponse deleteFiles(@RequestParam Map<String, String> params){
+        return submissionService.deleteFiles(params.get("sid"), Integer.parseInt(params.get("type_id")));
+    }
+
 
 }

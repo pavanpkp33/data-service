@@ -54,6 +54,9 @@ public class Query {
 
     public static final String DELETE_SUBMISSION = "UPDATE submissions SET valid = 'N' WHERE sid = ?";
     public static final String DELETE_CONF_USERS = "UPDATE conf_sub_users SET valid = 'N' WHERE sid =?";
+    public static final String DELETE_AUTHOR_FOR_SUB = "UPDATE conf_sub_users SET valid = 'N', last_updated = now() WHERE sid = ? AND uid = ?";
+    public static final String DELETE_FILES_SINGLE = "UPDATE files SET valid = 'N' WHERE sid = ? AND type_id = ?";
+
 
     /*
     Assignment queries
