@@ -69,7 +69,7 @@ public class ReviewService {
             field.setAccessible(true);
             try {
                 Object value = field.get(review);
-                if(value != null){
+                if(value != null && !value.toString().equals("0")){
 
                     if(flag){
                         if(field.getName().equals("score") || field.getName().equals("confidenceScore")){
