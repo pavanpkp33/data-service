@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class UserServiceRepo implements DataAccessRepository{
@@ -21,8 +21,15 @@ public class UserServiceRepo implements DataAccessRepository{
     }
 
     @Override
-    public Object findOne(String query, Object... params) {
-        return null;
+    public List<List<String>> findOne(String query, Object... params) {
+       return jdbcTemplate.query(query, params, (rs, rowNum)->{
+            List<String> r = new ArrayList<>();
+            r.add(rs.getString("cid"));
+            r.add(rs.getString("role_id"));
+            return r;
+
+
+        });
     }
 
     @Override

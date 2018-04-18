@@ -38,4 +38,10 @@ public class UserServiceController {
         return new ServiceResponse(Arrays.asList(u), "Query successful.");
     }
 
+    @PostMapping("/users/roles")
+    public ServiceResponse findRoles(@RequestParam Map<String, String > params){
+        return userService.findUserRoles(params.get("id"));
+    }
+
+
 }
