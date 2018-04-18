@@ -43,5 +43,10 @@ public class UserServiceController {
         return userService.findUserRoles(params.get("id"));
     }
 
+    @PostMapping("/users/conferences")
+    public ServiceResponse findConferences(@RequestParam  Map<String, String> mp){
+        return userService.findUserConferences(mp.get("id"));
+    }
+
 
 }

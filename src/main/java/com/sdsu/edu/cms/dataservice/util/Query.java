@@ -23,6 +23,7 @@ public class Query {
     public static final String ADD_ROLE = "INSERT INTO CONF_ROLES (cid, uid, role_id ) VALUES (?,?,?)";
     //Get the roles of user for all conferences
     public static final String GET_ROLE_CONF = "select * from conf_roles WHERE valid = 'Y' AND uid = ?";
+    public static final String GET_USER_CONF = "select c.cid, c.cname,c.caccronym, c.start_date, c.city, c.submissions_enabled from conference c, conf_roles r WHERE r.cid = c.cid AND c.valid = 'Y' AND r.valid = 'Y' AND r.uid = ?";
     public static final String ADD_TRACK = "INSERT INTO tracks (tname, cid) VALUES (?,?)";
     public static final String ADD_KEYWORDS_TRACK = "INSERT INTO tracks_keywords (track_id, keyword) VALUES (?,?)";
 

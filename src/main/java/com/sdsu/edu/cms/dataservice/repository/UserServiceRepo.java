@@ -1,12 +1,15 @@
 package com.sdsu.edu.cms.dataservice.repository;
 
 
+import com.google.gson.Gson;
+import com.sdsu.edu.cms.common.models.cms.Conference;
 import com.sdsu.edu.cms.common.models.user.User;
 import com.sdsu.edu.cms.dataservice.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 @Repository
@@ -17,7 +20,25 @@ public class UserServiceRepo implements DataAccessRepository{
 
     @Override
     public List<Object> findAll(String query, Object... params) {
-        return null;
+
+        List<Conference> conferences = jdbcTemplate.query(query, params,  (rs, rowNum) ->  new Conference(rs.getString("cid"),
+                rs.getString("cname"),
+                rs.getString("caccronym"),
+                0,
+                null,
+                rs.getTimestamp("start_date"),
+                null,
+                null,
+               null,
+                null,
+                null,
+                null,
+                null,
+                rs.getString("city"),
+                null,
+                rs.getString("submissions_enabled")));
+                if(conferences.size() == 0)return Arrays.asList("-1");
+         return  Arrays.asList(new Gson().toJson(conferences).toString());
     }
 
     @Override

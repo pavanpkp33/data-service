@@ -84,4 +84,9 @@ public class UserService {
 
         return new ServiceResponse(Arrays.asList(finalRes), "Roles queried successfully");
     }
+
+    public ServiceResponse findUserConferences(String id) {
+
+        return new ServiceResponse(userServiceRepo.findAll(Query.GET_USER_CONF, id), "Conferences queried successfully");
+    }
 }
