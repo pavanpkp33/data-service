@@ -51,7 +51,7 @@ public class NotifyService {
         String baseQuery = Query.GET_NOTIFICATION;
         ServiceResponse response = new ServiceResponse();
         if(id != null && confId != null){
-            baseQuery += "WHERE receiver_email= ? AND cid = ? AND notification_type = \"app\" ";
+            baseQuery += "WHERE receiver_email= ? AND cid = ? AND notification_type = \"app\" AND valid = 'Y' AND has_seen = 'N'";
             response.setData(notificationServiceRepo.findAll(baseQuery, id, confId));
             response.setMessage("Notifications queried successfully");
 

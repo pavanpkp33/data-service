@@ -1,6 +1,7 @@
 package com.sdsu.edu.cms.dataservice.repository;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sdsu.edu.cms.common.models.cms.Conference;
 import com.sdsu.edu.cms.common.models.cms.Track;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,8 @@ public class ConferenceServiceRepo implements DataAccessRepository {
                 rs.getString("country"),
                 rs.getString("submissions_enabled")));
         if(conferences.size() == 0) return "-1";
-        return new Gson().toJson(conferences.get(0)).toString();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        return gson.toJson(conferences.get(0)).toString();
     }
 
     @Override
