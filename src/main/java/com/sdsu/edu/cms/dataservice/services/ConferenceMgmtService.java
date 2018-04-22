@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -121,4 +122,18 @@ public class ConferenceMgmtService {
         }
     }
 
+    public ServiceResponse getConferenceUsers(String confId) {
+
+        return new ServiceResponse(conferenceServiceRepo.findAll(Query.GET_CONFERENCE_USERS, confId), "Users queried successfully");
+    }
+
+    public ServiceResponse deleteUserRole(String cid, String uid, String rid) {
+        int i =conferenceServiceRepo.update(Query.DELETE_ROLE,uid, cid, rid );
+        if(i != -1){
+            return new ServiceResponse(Arrays.asList(true), "User role deleted successfully" );
+        }else{
+            return new ServiceResponse(Arrays.asList(false), "Failed to delete user roles" );
+        }
+
+    }
 }

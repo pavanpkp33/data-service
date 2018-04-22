@@ -15,7 +15,6 @@ public class Query {
     public static final String SAVE_NOTIFICATION = "INSERT INTO NOTIFICATIONS (notification_id, title, body, sent_on, sender_uid, receiver_email, is_broadcast, cid, priority," +
             " notification_type, sender_name) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
     public static final String GET_NOTIFICATION = "SELECT * FROM NOTIFICATIONS ";
-
     public static final String CREATE_CONFERENCE = "INSERT INTO CONFERENCE (cid, cname, caccronym, cyear, chair_uid, start_date, end_date, web_link, contact, about, banner_url, venue," +
             "city, country) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     public static final String DELETE_CONFERENCE = "UPDATE CONFERENCE SET valid = 'N' WHERE cid = ?";
@@ -71,6 +70,7 @@ public class Query {
     Reviews query
      */
     public static final String GET_REVIEWERS_CONF = "SELECT c.uid, c.cid, c.role_id, u.first_name, u.email FROM conf_roles c, users u WHERE c.uid = u.id AND c.role_id = 'ROLE_REVIEWER' AND c.cid = ? AND c.valid = 'Y'";
+
     public static final String ADD_REVIEW = "INSERT INTO REVIEWS (rid, sid, uid, review, score, message_to_chair, confidence_score) VALUES(?,?,?,?,?,?,?)";
     public static final String GET_REVIEW_SUBID = "SELECT r.rid, r.sid, r.uid, r.review, r.score, r.message_to_chair, r.confidence_score, r.last_updated, r.publish, u.first_name, u.email " +
             "FROM reviews r, users u WHERE r.uid = u.id AND r.valid = 'Y' AND r.sid = ?";
@@ -80,4 +80,12 @@ public class Query {
 
 
     public static final String DELETE_REVIEW = "UPDATE REVIEWS SET valid = 'N', last_updated = now() WHERE rid=?";
+
+    /*
+    User management
+
+     */
+    public static final String GET_CONFERENCE_USERS = "SELECT c.uid, c.cid, c.role_id, u.first_name, u.email FROM conf_roles c, users u WHERE c.uid = u.id AND c.cid = ? AND c.role_id = 'ROLE_REVIEWER' AND c.role_id = 'ROLE_CHAIR' AND c.valid = 'Y'";
+    public static final String DELETE_ROLE = "UPDATE conf_roles SET valid = 'N' WHERE uid = ? AND cid = ? AND role_id = ?";
+
 }

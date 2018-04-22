@@ -49,5 +49,19 @@ public class ConferenceServiceController {
 
     }
 
+    @PostMapping("/conferences/users")
+    public ServiceResponse getConferenceUsers(@RequestParam Map<String, String> params){
+        String confId = params.get("cid");
+        return conferenceMgmtService.getConferenceUsers(confId);
+
+    }
+
+    @PostMapping("/conferences/users/delete")
+    public ServiceResponse deleteUserRoles(@RequestParam Map<String, String> params){
+        return conferenceMgmtService.deleteUserRole(params.get("cid"), params.get("uid"), params.get("rid"));
+    }
+
+
+
     //TODO: Update Tracks -- If track ID exists, update else create new. For keywords, delete all and re-insert.
 }

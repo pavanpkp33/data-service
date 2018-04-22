@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sdsu.edu.cms.common.models.cms.Conference;
 import com.sdsu.edu.cms.common.models.cms.Track;
+import com.sdsu.edu.cms.common.models.review.Reviewers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -28,7 +30,13 @@ public class ConferenceServiceRepo implements DataAccessRepository {
 
     @Override
     public List<Object> findAll(String query, Object... params) {
-        return null;
+        List<Reviewers> reviewers = jdbcTemplate.query(query, params,  (rs, rowNum) -> new Reviewers(rs.getString("uid"),
+                rs.getString("cid"),
+                rs.getString("role_id"),
+                rs.getString("first_name"),
+                rs.getString("email"),
+                "Y"));
+        return Arrays.asList(new Gson().toJson(reviewers).toString());
     }
 
     @Override
