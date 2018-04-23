@@ -128,7 +128,9 @@ public class ConferenceMgmtService {
     }
 
     public ServiceResponse deleteUserRole(String cid, String uid, String rid) {
-        int i =conferenceServiceRepo.update(Query.DELETE_ROLE,uid, cid, rid );
+        String query = "UPDATE conf_roles SET valid = 'N' WHERE uid = '"+uid+"' AND cid = '"+cid+"' AND role_id = '"+rid+"'";
+        System.out.println(query);
+        int i =conferenceServiceRepo.update(query,null);
         if(i != -1){
             return new ServiceResponse(Arrays.asList(true), "User role deleted successfully" );
         }else{

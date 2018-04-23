@@ -89,4 +89,13 @@ public class UserService {
 
         return new ServiceResponse(userServiceRepo.findAll(Query.GET_USER_CONF, id), "Conferences queried successfully");
     }
+
+    public ServiceResponse findUserByEmailId(String email) {
+        return  new ServiceResponse(Arrays.asList(userServiceRepo.findById(Query.GET_USER_BY_EMAIL, email)), "User queried successfully");
+    }
+
+    public ServiceResponse addRoles(String uid, String cid, String rid) {
+        userServiceRepo.update(Query.ADD_ROLE,cid, uid,rid);
+        return new ServiceResponse(Arrays.asList(true), "Role added successfully");
+    }
 }

@@ -85,7 +85,8 @@ public class Query {
     User management
 
      */
-    public static final String GET_CONFERENCE_USERS = "SELECT c.uid, c.cid, c.role_id, u.first_name, u.email FROM conf_roles c, users u WHERE c.uid = u.id AND c.cid = ? AND c.role_id = 'ROLE_REVIEWER' AND c.role_id = 'ROLE_CHAIR' AND c.valid = 'Y'";
+    public static final String GET_CONFERENCE_USERS = "SELECT c.uid, c.cid, c.role_id, u.first_name, u.email FROM conf_roles c, users u WHERE c.uid = u.id AND c.cid = ? AND c.role_id in ('ROLE_REVIEWER','ROLE_CHAIR') AND c.valid = 'Y'";
     public static final String DELETE_ROLE = "UPDATE conf_roles SET valid = 'N' WHERE uid = ? AND cid = ? AND role_id = ?";
+
 
 }

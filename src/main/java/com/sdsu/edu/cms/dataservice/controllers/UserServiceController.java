@@ -48,5 +48,16 @@ public class UserServiceController {
         return userService.findUserConferences(mp.get("id"));
     }
 
+    @PostMapping("/users/email")
+    public ServiceResponse findUserByEmail(@RequestParam Map<String, String> params){
+        return userService.findUserByEmailId(params.get("email"));
+    }
+
+    @PostMapping("/users/addRole")
+    public ServiceResponse addRoleForUser(@RequestParam  Map<String, String> params){
+        return userService.addRoles(params.get("uid"), params.get("cid"), params.get("rid"));
+
+    }
+
 
 }
