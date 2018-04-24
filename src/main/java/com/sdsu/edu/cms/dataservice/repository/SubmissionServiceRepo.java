@@ -75,6 +75,7 @@ public class SubmissionServiceRepo implements DataAccessRepository{
     }
 
     public List<Submission> findSubmisisons(String query, Object ...params){
+        System.out.println(query);
         return jdbcTemplate.query(query, params, rs -> {
             Submission submission;
             List<Submission> subList = new ArrayList<>();

@@ -278,4 +278,27 @@ public class SubmissionService {
         submissionServiceRepo.save(Query.DELETE_FILES_SINGLE, sid, type_id);
         return new ServiceResponse(Arrays.asList(true), "File deleted successfully");
     }
+
+    public ServiceResponse getUserSubmissions(String cid, String uid) {
+
+        List<Submission> result;
+        Map<Integer, String> map;
+
+        result = submissionServiceRepo.findSubmisisons(Query.GET_SUBMISSION_BY_UID, cid, uid);
+        if(result.isEmpty()) return new ServiceResponse(null, "No submissions found");
+
+        for(Submission s : result){
+            s.setKeyword(submissionServiceRepo.getKeywords(Query.GET_KWS_BY_SID, s.getSid()));
+            s.setAuthorsList(submissionServiceRepo.getAuthors(Query.GET_AUTHORS_BY_SID,s.getSid()));
+            map = submissionServiceRepo.getFilesData(Query.GET_FILES_BY_SID, s.getSid());
+            processFilesInput(s, map);
+
+        }
+
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+        Object t = gson.toJson(result).toString();
+
+        return new ServiceResponse(Arrays.asList(t), "Query successful.");
+
+    }
 }

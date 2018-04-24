@@ -32,6 +32,11 @@ public class SubmissionServiceController {
         return response;
     }
 
+    @PostMapping("/submissions/get/user")
+    public ServiceResponse getSubmissionForUser(@RequestParam Map<String, String> params){
+        return submissionService.getUserSubmissions(params.get("cid"), params.get("uid"));
+    }
+
     @PostMapping("/submissions/get")
     public ServiceResponse getSubmission(@RequestParam Map<String, String> params){
         String confId = params.get("cid");

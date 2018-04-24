@@ -47,6 +47,8 @@ public class Query {
 
     public static final String GET_SUBMISSION_BY_CONF = "SELECT s.sid, s.title, s.submission_date, s.submit_author_id, s.track_id, s.abstract_text, s.last_updated, s.decision_status," +
             " s.is_paid, s.group_app, u.first_name, u.email, t.tname  FROM submissions s, tracks t, users u WHERE s.submit_author_id = u.id AND t.tid = s.track_id AND s.cid = ? AND s.valid='Y'";
+    public static final String GET_SUBMISSION_BY_UID = "SELECT s.sid, s.title, s.submission_date, s.submit_author_id, s.track_id, s.abstract_text, s.last_updated, s.decision_status," +
+            " s.is_paid, s.group_app, u.first_name, u.email, t.tname  FROM submissions s, tracks t, users u WHERE s.submit_author_id = u.id AND t.tid = s.track_id AND s.valid='Y' AND s.cid = ? AND s.sid IN ( select sid from conf_sub_users WHERE uid = ? AND valid ='Y')";
     // GET submisison info in sequence.
     public static final String GET_KWS_BY_SID ="SELECT keyword from keywords WHERE sid = ? AND valid = 'Y'";
     public static final String GET_AUTHORS_BY_SID = "SELECT c.uid, c.is_corresponding_user, u.first_name, u.last_name, u.email from users u, conf_sub_users c WHERE c.uid = u.id AND c.valid = 'Y' AND sid = ?";
