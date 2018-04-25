@@ -18,8 +18,8 @@ public class ReviewServiceRepo implements DataAccessRepository{
 
     @Override
     public List<Object> findAll(String query, Object... params) {
-        List<Reviewers> reviewers = jdbcTemplate.query(query, params,  (rs, rowNum) -> new Reviewers(rs.getString("uid"),
-                rs.getString("cid"),
+        List<Reviewers> reviewers = jdbcTemplate.query(query, params,  (rs, rowNum) -> new Reviewers(rs.getString("cid"),
+                rs.getString("uid"),
                 rs.getString("role_id"),
                 rs.getString("first_name"),
                 rs.getString("email"),
