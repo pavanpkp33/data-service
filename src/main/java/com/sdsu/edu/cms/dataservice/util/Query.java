@@ -74,11 +74,15 @@ public class Query {
      */
     public static final String GET_REVIEWERS_CONF = "SELECT c.uid, c.cid, c.role_id, u.first_name, u.email FROM conf_roles c, users u WHERE c.uid = u.id AND c.role_id = 'ROLE_REVIEWER' AND c.cid = ? AND c.valid = 'Y'";
 
-    public static final String ADD_REVIEW = "INSERT INTO REVIEWS (rid, sid, uid, review, score, message_to_chair, confidence_score) VALUES(?,?,?,?,?,?,?)";
+    public static final String ADD_REVIEW = "INSERT INTO REVIEWS (rid, sid, uid, review, score, message_to_chair, confidence_score, cid) VALUES(?,?,?,?,?,?,?,?)";
     public static final String GET_REVIEW_SUBID = "SELECT r.rid, r.sid, r.uid, r.review, r.score, r.message_to_chair, r.confidence_score, r.last_updated, r.publish, u.first_name, u.email " +
             "FROM reviews r, users u WHERE r.uid = u.id AND r.valid = 'Y' AND r.sid = ?";
     public static final String GET_REVIEW_BYID = "SELECT r.rid, r.sid, r.uid, r.review, r.score, r.message_to_chair, r.confidence_score, r.last_updated, r.publish, u.first_name, u.email " +
             "FROM reviews r, users u WHERE r.uid = u.id AND r.valid = 'Y' AND r.rid = ?";
+    public static final String GET_REVIEW_BYUID = "SELECT r.rid, r.sid, r.uid, r.review, r.score, r.message_to_chair, r.confidence_score, r.last_updated, r.publish, u.first_name, u.email " +
+            "FROM reviews r, users u WHERE r.uid = u.id AND r.valid = 'Y' AND r.uid = ? AND r.cid = ?";
+    public static final String GET_REVIEW_BYCID = "SELECT r.rid, r.sid, r.uid, r.review, r.score, r.message_to_chair, r.confidence_score, r.last_updated, r.publish, u.first_name, u.email " +
+            "FROM reviews r, users u WHERE r.uid = u.id AND r.valid = 'Y' AND  r.cid = ?";
     public static final String PUBLISH_REVIEWS = "UPDATE REVIEWS SET publish = 'Y', last_updated = now() WHERE sid = ?";
 
 

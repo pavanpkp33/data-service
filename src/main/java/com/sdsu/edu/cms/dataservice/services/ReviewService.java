@@ -56,7 +56,7 @@ public class ReviewService {
         Map<String, String> columns = new HashMap<>();
         columns.put("reviewId","rid" );
         columns.put("review", "review");
-        columns.put("score", "Score");
+        columns.put("score", "score");
         columns.put("messageChair", "message_to_chair");
         columns.put("confidenceScore", "confidence_score");
         columns.put("publish", "publish");
@@ -104,5 +104,18 @@ public class ReviewService {
     public ServiceResponse deleteReview(String rid) {
         reviewServiceRepo.save(Query.DELETE_REVIEW, rid);
         return new ServiceResponse(Arrays.asList(true), "Review deleted successfully.");
+    }
+
+    public ServiceResponse getReviewByConferenceId(String cid) {
+        List<Review> reviews = reviewServiceRepo.findReview(Query.GET_REVIEW_BYCID, cid);
+        String serializedReviews = new Gson().toJson(reviews).toString();
+        return new ServiceResponse(Arrays.asList(serializedReviews), "Reviews queried successfully");
+
+    }
+
+    public ServiceResponse getReviewByUID(String cid, String uid) {
+        List<Review> reviews = reviewServiceRepo.findReview(Query.GET_REVIEW_BYUID, uid, cid);
+        String serializedReviews = new Gson().toJson(reviews).toString();
+        return new ServiceResponse(Arrays.asList(serializedReviews), "Reviews queried successfully");
     }
 }

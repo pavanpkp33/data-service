@@ -50,4 +50,14 @@ public class ReviewServiceController {
         return reviewService.deleteReview(params.get("rid"));
     }
 
+
+    @PostMapping("/reviews/get/cid")
+    public ServiceResponse getReviewsByCid(@RequestParam Map<String, String> params){
+        return reviewService.getReviewByConferenceId(params.get("cid"));
+    }
+    @PostMapping("/reviews/get/uid")
+    public ServiceResponse getReviewsByUid(@RequestParam  Map<String, String> params){
+        return reviewService.getReviewByUID(params.get("cid"), params.get("uid"));
+    }
+
 }
