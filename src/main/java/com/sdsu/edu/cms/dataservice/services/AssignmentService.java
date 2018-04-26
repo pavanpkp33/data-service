@@ -61,4 +61,9 @@ public class AssignmentService {
             return new ServiceResponse(Arrays.asList(e.getMessage()), "Failed to delete reviewer");
         }
     }
+
+    public ServiceResponse getAssignmentsByUID(String cid, String uid) {
+        return  new ServiceResponse(assignmentServiceRepo.findAll(Query.GET_ASSIGNMENT_BY_UID, cid, uid),
+                "Assignments queried successfully");
+    }
 }

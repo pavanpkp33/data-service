@@ -27,6 +27,11 @@ public class AssignmentServiceController {
     public ServiceResponse getAssignment(@RequestParam Map<String, String> params){
         return assignmentService.getAssignments(params.get("sid"));
     }
+    @PostMapping("/assignment/get/id")
+    public ServiceResponse getAssignmentByUid(@RequestParam Map<String, String> params){
+        return assignmentService.getAssignmentsByUID(params.get("cid"), params.get("uid"));
+    }
+
 
     @PostMapping("/assignment/delete")
     public ServiceResponse deleteAssignment(@RequestParam Map<String, Object> params){
