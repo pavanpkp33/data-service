@@ -21,7 +21,10 @@ public class ConferenceServiceController {
     public ServiceResponse createConference(@RequestBody Conference conference){
         return conferenceMgmtService.createNewConference(conference);
     }
-
+    @PostMapping("/conferences/tracks/delete")
+    public ServiceResponse deleteTrack(@RequestParam Map<String, String> params){
+        return conferenceMgmtService.deleteTrack(params.get("tid"));
+    }
     @PostMapping("/conferences/tracks")
     public ServiceResponse addTracks(@RequestBody List<Track> tracks, @RequestParam Map<String, String> map){
         return conferenceMgmtService.addTracksForConference(tracks, map.get("cid"));

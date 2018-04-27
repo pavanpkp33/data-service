@@ -129,7 +129,7 @@ public class ConferenceMgmtService {
 
     public ServiceResponse deleteUserRole(String cid, String uid, String rid) {
         String query = "UPDATE conf_roles SET valid = 'N' WHERE uid = '"+uid+"' AND cid = '"+cid+"' AND role_id = '"+rid+"'";
-        System.out.println(query);
+
         int i =conferenceServiceRepo.update(query,null);
         if(i != -1){
             return new ServiceResponse(Arrays.asList(true), "User role deleted successfully" );
@@ -137,5 +137,11 @@ public class ConferenceMgmtService {
             return new ServiceResponse(Arrays.asList(false), "Failed to delete user roles" );
         }
 
+    }
+
+    public ServiceResponse deleteTrack(String tid) {
+        String query = "UPDATE tracks SET VALID = 'N' WHERE tid = ?";
+        conferenceServiceRepo.update(query, tid);
+        return new ServiceResponse(Arrays.asList(true), "Track deleted successfully");
     }
 }
